@@ -1,8 +1,5 @@
-
 import 'package:flutter/material.dart';
-
-
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -13,26 +10,26 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _buildTopIcon(),
-              const SizedBox(height: 50),
+              SizedBox(height: 50.h),
               _buildLoginTitle(),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               _buildEmailTextField(),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _buildPasswordTextField(),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               _buildForgotPasswordButton(),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _buildLoginButton(),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               _buildOrLoginWith(),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.h),
               _buildSocialLoginButtons(),
-              const SizedBox(height: 100),
+              SizedBox(height: 50.h),
               _buildSignUpText(context),
             ],
           ),
@@ -48,12 +45,12 @@ class LoginScreen extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/lap.png',
-            height: 100,
+            height: 100.h,
           ),
-          const Text(
+          Text(
             'QuickLap',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
@@ -64,21 +61,21 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginTitle() {
-    return const Column(
+    return Column(
       children: [
         Text(
           'Log In',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 24.sp,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 5.h),
         Text(
           'Use your credentials and login to your account',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 14.sp,
             color: Colors.grey,
           ),
           textAlign: TextAlign.center,
@@ -95,7 +92,7 @@ class LoginScreen extends StatelessWidget {
         fillColor: const Color(0xFFF3F5F7),
         prefixIcon: const Icon(Icons.email, color: Colors.grey),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
       ),
@@ -112,7 +109,7 @@ class LoginScreen extends StatelessWidget {
         prefixIcon: const Icon(Icons.lock, color: Colors.grey),
         suffixIcon: const Icon(Icons.visibility, color: Colors.grey),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
       ),
@@ -124,10 +121,11 @@ class LoginScreen extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () {},
-        child: const Text(
+        child: Text(
           'Forgot Password?',
           style: TextStyle(
             color: Colors.purple,
+            fontSize: 14.sp,
           ),
         ),
       ),
@@ -139,16 +137,16 @@ class LoginScreen extends StatelessWidget {
       onPressed: () {},
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6C5DD3),
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 120),
+        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
       ),
-      child: const Text(
+      child: Text(
         'Log In',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 16,
+          fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -156,11 +154,11 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildOrLoginWith() {
-    return const Text(
+    return Text(
       'Or Log in with',
       style: TextStyle(
         color: Colors.grey,
-        fontSize: 14,
+        fontSize: 14.sp,
       ),
     );
   }
@@ -169,7 +167,7 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png'), // Phone Icon
+        _buildSocialBtn('assets/images/apple.png'), // Apple Icon
         _buildSocialBtn('assets/images/facebook.png'), // Facebook Icon
         _buildSocialBtn('assets/images/google.png'), // Google Icon
       ],
@@ -180,12 +178,15 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('if you are new', style: TextStyle(fontSize: 14)),
+        Text('If you are new', style: TextStyle(fontSize: 14.sp)),
         TextButton(
           onPressed: () {
             Navigator.pushNamed(context, '/signup'); // Navigate to Sign Up Page
           },
-          child: const Text('Create New Account', style: TextStyle(fontSize: 14, color: Color(0xFF9B51E0))),
+          child: Text(
+            'Create New Account',
+            style: TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0)),
+          ),
         ),
       ],
     );
@@ -197,8 +198,8 @@ class LoginScreen extends StatelessWidget {
         print('Social button pressed');
       },
       child: Container(
-        height: 60,
-        width: 60,
+        height: 60.h,
+        width: 60.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,
@@ -214,8 +215,8 @@ class LoginScreen extends StatelessWidget {
         child: Center(
           child: Image.asset(
             imagePath,
-            height: 30,
-            width: 30,
+            height: 30.h,
+            width: 30.h,
           ),
         ),
       ),

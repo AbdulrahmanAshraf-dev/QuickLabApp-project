@@ -47,7 +47,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/lap.png',
+            'assets/image/logo.jpg',
             height: 100,
           ),
           const Text(
@@ -169,9 +169,9 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png'), // Phone Icon
-        _buildSocialBtn('assets/images/facebook.png'), // Facebook Icon
-        _buildSocialBtn('assets/images/google.png'), // Google Icon
+        _buildSocialBtn('assets/image/apple.png'), // Phone Icon
+        _buildSocialBtn('assets/image/facebook.png'), // Facebook Icon
+        _buildSocialBtn('assets/image/google.png'), // Google Icon
       ],
     );
   }

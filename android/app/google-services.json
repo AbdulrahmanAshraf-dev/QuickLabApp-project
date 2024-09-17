@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "937803163248",
+    "project_id": "quicklap-39473",
+    "storage_bucket": "quicklap-39473.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937803163248:android:587911fe03f72a98ebf6b5",
+        "android_client_info": {
+          "package_name": "com.example.quicklab.quicklab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937803163248-ajetlhf4pkar9aktfa7v5ecvca0pbdoh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5xnFmX-xesNVEZN4WdVEhw1bGWUF81JQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937803163248-ajetlhf4pkar9aktfa7v5ecvca0pbdoh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "937803163248-74cfq3dlhh55ltgaii7ib05jrjfblkg9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.quicklab.quicklab"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937803163248:android:1fdf36b9bb7d4380ebf6b5",
+        "android_client_info": {
+          "package_name": "com.quicklap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937803163248-ajetlhf4pkar9aktfa7v5ecvca0pbdoh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5xnFmX-xesNVEZN4WdVEhw1bGWUF81JQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937803163248-ajetlhf4pkar9aktfa7v5ecvca0pbdoh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "937803163248-74cfq3dlhh55ltgaii7ib05jrjfblkg9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.quicklab.quicklab"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

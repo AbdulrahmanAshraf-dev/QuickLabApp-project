@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
             height: 100,
           ),
           const Text(
-            'QuickLap',
+            'Quick Lap',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: 100,
         ),
         Text(
-          'QuickLap',
+          'Quick Lap',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ],

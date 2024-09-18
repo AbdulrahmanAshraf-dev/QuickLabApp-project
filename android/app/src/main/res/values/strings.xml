@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quick Lap</string>
+    <string name="facebook_app_id">1072800720873087</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">c96c6a4d71333212aece13fc45d33ed9</string>
+
+
+</resources>

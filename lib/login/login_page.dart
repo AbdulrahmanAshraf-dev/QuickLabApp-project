@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quicklab/firebase_function.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -32,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 30.h),
                 _buildOrLoginWith(),
                 SizedBox(height: 40.h),
-                _buildSocialLoginButtons(),
+                _buildSocialLoginButtons(context),
                 SizedBox(height: 50.h),
                 _buildSignUpText(context),
               ],
@@ -193,13 +194,13 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialLoginButtons() {
+  Widget _buildSocialLoginButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png'), // Apple Icon
-        _buildSocialBtn('assets/images/facebook.png'), // Facebook Icon
-        _buildSocialBtn('assets/images/google.png'), // Google Icon
+        _buildSocialBtn('assets/images/apple.png',context), // Apple Icon
+        _buildSocialBtn('assets/images/facebook.png',context), // Facebook Icon
+        _buildSocialBtn('assets/images/google.png',context), // Google Icon
       ],
     );
   }
@@ -222,9 +223,10 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialBtn(String imagePath) {
+  Widget _buildSocialBtn(String imagePath,BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context.read<LoginCubit>().signInWithGoogle();
         print('Social button pressed');
       },
       child: Container(

@@ -23,5 +23,10 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
     var response = await FirebaseFunction.signInWithGoogle();
     response.fold((error)=>emit(LoginFailure(error)), (user)=>emit(LoginSuccessful()));
+  }  signInWithFaceBook()async{
+    emit(LoginLoading());
+    var response = await FirebaseFunction.signInWithFacebook();
+    response.fold((error)=>emit(LoginFailure(error)), (user)=>emit(LoginSuccessful()));
   }
+
 }

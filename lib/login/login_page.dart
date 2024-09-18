@@ -198,9 +198,15 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png',context), // Apple Icon
-        _buildSocialBtn('assets/images/facebook.png',context), // Facebook Icon
-        _buildSocialBtn('assets/images/google.png',context), // Google Icon
+        _buildSocialBtn('assets/images/apple.png',context,() {
+
+        },), // Apple Icon
+        _buildSocialBtn('assets/images/facebook.png',context,() {
+          context.read<LoginCubit>().signInWithFaceBook();
+        },), // Facebook Icon
+        _buildSocialBtn('assets/images/google.png',context,() {
+          context.read<LoginCubit>().signInWithGoogle();
+        },), // Google Icon
       ],
     );
   }
@@ -223,12 +229,9 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialBtn(String imagePath,BuildContext context) {
+  Widget _buildSocialBtn(String imagePath,BuildContext context,void Function()? onTap) {
     return GestureDetector(
-      onTap: () {
-        context.read<LoginCubit>().signInWithGoogle();
-        print('Social button pressed');
-      },
+      onTap: onTap,
       child: Container(
         height: 60.h,
         width: 60.h,

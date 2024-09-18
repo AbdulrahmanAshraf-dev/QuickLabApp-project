@@ -3,6 +3,8 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -97,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           borderSide: BorderSide.none,
         ),
         contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 12.w),
-        suffixIcon: isPassword ? Icon(Icons.visibility_off) : null,
+        suffixIcon: isPassword ? const Icon(Icons.visibility_off) : null,
       ),
     );
   }
@@ -112,7 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onInputValidated: (bool value) {
         // Handle validation result
       },
-      selectorConfig: SelectorConfig(
+      selectorConfig: const SelectorConfig(
         selectorType: PhoneInputSelectorType.DROPDOWN,
         showFlags: true,
       ),
@@ -120,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autoValidateMode: AutovalidateMode.onUserInteraction,
       formatInput: false,
       cursorColor: Colors.black,
-      keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
       inputDecoration: InputDecoration(
         hintText: 'Enter phone number',
         filled: true,
@@ -161,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return ElevatedButton(
       onPressed: _isChecked ? () {} : null, // Disable if checkbox is not checked
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xFF6C5DD3),
+        backgroundColor: const Color(0xFF6C5DD3),
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
@@ -187,7 +189,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           onPressed: () {
             Navigator.pushNamed(context, '/login'); // Navigate to Login Page
           },
-          child: Text('Login', style: TextStyle(fontSize: 14.sp, color: Color(0xFF9B51E0))),
+          child: Text('Login', style: TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0))),
         ),
       ],
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quicklab/signup/cubit/signup_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -10,6 +12,10 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   bool _isChecked = false;
   PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
 
   @override
   void initState() {
@@ -18,42 +24,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize ScreenUtil in the build method
-    ScreenUtil.init(context, designSize: const Size(375, 812));
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildLogo(),
-              SizedBox(height: 50.h),
-              _buildTitle(),
-              SizedBox(height: 5.h),
-              _buildSubtitle(),
-              SizedBox(height: 30.h),
-              _buildTextField('Enter full name', false),
-              SizedBox(height: 20.h),
-              _buildTextField('Enter your email', false),
-              SizedBox(height: 20.h),
-              _buildPhoneNumberField(),
-              SizedBox(height: 20.h),
-              _buildTextField('Enter your password', true),
-              SizedBox(height: 12.h),
-              _buildTermsCheckbox(),
-              SizedBox(height: 12.h),
-              _buildSignUpButton(),
-              SizedBox(height: 12.h),
-              _buildLoginText(context),
-            ],
+    return BlocListener<SignupCubit, SignupState>(
+      listener: (context, state) {
+        if (state is SignupSuccessState) {
+          // Navigate to another screen or show success message
+        } else if (state is SignupErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildLogo(),
+                SizedBox(height: 50.h),
+                _buildTitle(),
+                SizedBox(height: 5.h),
+                _buildSubtitle(),
+                SizedBox(height: 30.h),
+                _buildTextField('Enter full name', false, _nameController),
+                SizedBox(height: 20.h),
+                _buildTextField('Enter your email', false, _emailController),
+                SizedBox(height: 20.h),
+                _buildPhoneNumberField(),
+                SizedBox(height: 20.h),
+                _buildTextField('Enter your password', true, _passwordController),
+                SizedBox(height: 12.h),
+                _buildTermsCheckbox(),
+                SizedBox(height: 12.h),
+                _buildSignUpButton(),
+                SizedBox(height: 12.h),
+                _buildLoginText(context),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
 
   Widget _buildLogo() {
     return Column(
@@ -85,9 +98,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildTextField(String hintText, bool isPassword) {
+  Widget _buildTextField(String hintText, bool isPassword, TextEditingController controller) {
     return TextField(
       obscureText: isPassword,
+      controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
@@ -114,9 +128,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       selectorConfig: SelectorConfig(
         selectorType: PhoneInputSelectorType.DROPDOWN,
-        showFlags: true,
+        showFlags: true
       ),
       ignoreBlank: false,
+
       autoValidateMode: AutovalidateMode.onUserInteraction,
       formatInput: false,
       cursorColor: Colors.black,
@@ -159,7 +174,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildSignUpButton() {
     return ElevatedButton(
-      onPressed: _isChecked ? () {} : null, // Disable if checkbox is not checked
+      onPressed: _isChecked ? () {
+        context.read<SignupCubit>().signUpWithEmailPassword(
+            _emailController.text,
+            _passwordController.text,
+            _nameController.text,
+            _phoneNumber.phoneNumber! // Pass the formatted phone number
+        );
+      } : null, // Disable if checkbox is not checked
       style: ElevatedButton.styleFrom(
         backgroundColor: Color(0xFF6C5DD3),
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),

@@ -1,5 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
@@ -32,10 +33,11 @@ class MyApp extends StatelessWidget {
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            initialRoute: '/signup',
+            initialRoute: '/splash',
             routes: {
               '/login': (context) => const LoginScreen(),
               '/signup': (context) => const SignUpScreen(),
+              '/splash': (context) => SplashScreen(),
             },
           ),
         );

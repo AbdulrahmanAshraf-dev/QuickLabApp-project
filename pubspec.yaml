@@ -78,10 +78,11 @@ flutter:
   generate: true
 
   assets:
-    - assets/images/apple.png
-    - assets/images/facebook.png
-    - assets/images/google.png
-    - assets/images/lap.png
+    - assets/image/apple.png
+    - assets/image/facebook.png
+    - assets/image/google.png
+    - assets/image/lap.png
+    - assets/image/logo.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

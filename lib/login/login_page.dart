@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quicklab/firebase_function.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -11,7 +10,36 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: BlocListener<LoginCubit, LoginState>(
+  listener: (context, state) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.black,
+        content: state is LoginSuccessful
+            ? Text(
+          "Successful",
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        )
+            : state is LoginFailure
+            ?  Text("Try Again",
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),)
+            :  Text("Loading",style: TextStyle(
+          fontSize: 18.sp,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),),
+      ),
+    );
+  },
+  child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
           child: Form(
@@ -41,6 +69,7 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+),
     );
   }
 
@@ -50,7 +79,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/lap.png',
+            'assets/image/lap.png',
             height: 100.h,
           ),
           Text(
@@ -154,33 +183,14 @@ class LoginScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
         ),
       ),
-      child: BlocBuilder<LoginCubit, LoginState>(
-        builder: (context, state) {
-          if (state is LoginLoading) {
-            return const CircularProgressIndicator(
-              color: Colors.white,
-            );
-          } else if (state is LoginFailure) {
-            return Text(
-              state.error,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            );
-          } else {
-            return Text(
+      child:  Text(
               'Log In',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
-            );
-          }
-        },
-      ),
+            )
     );
   }
 
@@ -198,13 +208,13 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png',context,() {
+        _buildSocialBtn('assets/image/apple.png',context,() {
 
         },), // Apple Icon
-        _buildSocialBtn('assets/images/facebook.png',context,() {
+        _buildSocialBtn('assets/image/facebook.png',context,() {
           context.read<LoginCubit>().signInWithFaceBook();
         },), // Facebook Icon
-        _buildSocialBtn('assets/images/google.png',context,() {
+        _buildSocialBtn('assets/image/google.png',context,() {
           context.read<LoginCubit>().signInWithGoogle();
         },), // Google Icon
       ],

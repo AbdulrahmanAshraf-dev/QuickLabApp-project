@@ -1,10 +1,12 @@
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
 import 'package:quicklab/signup/signup_page.dart';
+import 'package:quicklab/splashscreen/splash.dart';
 import 'login/login_page.dart';
 
 
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
             routes: {
               '/login': (context) => const LoginScreen(),
               '/signup': (context) => const SignUpScreen(),
-              '/splash': (context) => SplashScreen(),
+              '/splash': (context) => const SplashScreen(),
             },
           ),
         );

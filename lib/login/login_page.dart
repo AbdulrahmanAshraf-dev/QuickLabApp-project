@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/lap.png',
+            'assets/images/logo.jpg',
             height: 100.h,
           ),
           Text(

@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => SignUpScreen()));
+              builder: (context) => const SignUpScreen()));
     });
     super.initState();
   }
@@ -31,10 +31,10 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Expanded(
               child: Center(
-                child: Image.asset('assets/image/logo.jpg',height: 291,width: 291,),
+                child: Image.asset('assets/images/logo.jpg',height: 291,width: 291,),
         ),
             ),
-            Column(
+            const Column(
               children: [
                 Text(
                   "Qucik Lab",
@@ -45,9 +45,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 80.0),
-              child: const CircularProgressIndicator(),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 80.0),
+              child: CircularProgressIndicator(),
             ),
             const Text("developed by Codroid Team",style: TextStyle(color: Colors.grey),),
           ],

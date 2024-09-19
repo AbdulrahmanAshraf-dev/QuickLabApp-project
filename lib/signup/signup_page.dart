@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: [
         Image.asset(
 
-          'assets/images/lap.png', // Ensure this path is correct
+          'assets/images/logo.jpg', // Ensure this path is correct
           height: 100.h,
         ),
         Text(

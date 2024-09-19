@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
-
-
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quicklab/firebase_function.dart';
+import 'package:quicklab/login/login_cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -13,28 +13,31 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildTopIcon(),
-              const SizedBox(height: 50),
-              _buildLoginTitle(),
-              const SizedBox(height: 30),
-              _buildEmailTextField(),
-              const SizedBox(height: 20),
-              _buildPasswordTextField(),
-              const SizedBox(height: 10),
-              _buildForgotPasswordButton(),
-              const SizedBox(height: 20),
-              _buildLoginButton(),
-              const SizedBox(height: 30),
-              _buildOrLoginWith(),
-              const SizedBox(height: 40),
-              _buildSocialLoginButtons(),
-              const SizedBox(height: 100),
-              _buildSignUpText(context),
-            ],
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+          child: Form(
+            key: context.read<LoginCubit>().key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildTopIcon(),
+                SizedBox(height: 50.h),
+                _buildLoginTitle(),
+                SizedBox(height: 30.h),
+                _buildEmailTextField(context),
+                SizedBox(height: 20.h),
+                _buildPasswordTextField(context),
+                SizedBox(height: 10.h),
+                _buildForgotPasswordButton(),
+                SizedBox(height: 20.h),
+                _buildLoginButton(context),
+                SizedBox(height: 30.h),
+                _buildOrLoginWith(),
+                SizedBox(height: 40.h),
+                _buildSocialLoginButtons(context),
+                SizedBox(height: 50.h),
+                _buildSignUpText(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -47,13 +50,13 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/image/logo.jpg',
-            height: 100,
+            'assets/images/lap.png',
+            height: 100.h,
           ),
-          const Text(
-            'Quick Lap',
+          Text(
+            'QuickLap',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
@@ -64,21 +67,21 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginTitle() {
-    return const Column(
+    return Column(
       children: [
         Text(
           'Log In',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 24.sp,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 5.h),
         Text(
           'Use your credentials and login to your account',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 14.sp,
             color: Colors.grey,
           ),
           textAlign: TextAlign.center,
@@ -87,23 +90,25 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailTextField() {
+  Widget _buildEmailTextField(BuildContext context) {
     return TextField(
+      controller: context.read<LoginCubit>().emailController,
       decoration: InputDecoration(
         hintText: 'Enter your email',
         filled: true,
         fillColor: const Color(0xFFF3F5F7),
         prefixIcon: const Icon(Icons.email, color: Colors.grey),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
       ),
     );
   }
 
-  Widget _buildPasswordTextField() {
+  Widget _buildPasswordTextField(BuildContext context) {
     return TextField(
+      controller: context.read<LoginCubit>().passwordController,
       obscureText: true,
       decoration: InputDecoration(
         hintText: 'Enter your password',
@@ -112,7 +117,7 @@ class LoginScreen extends StatelessWidget {
         prefixIcon: const Icon(Icons.lock, color: Colors.grey),
         suffixIcon: const Icon(Icons.visibility, color: Colors.grey),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide.none,
         ),
       ),
@@ -124,54 +129,84 @@ class LoginScreen extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () {},
-        child: const Text(
+        child: Text(
           'Forgot Password?',
           style: TextStyle(
             color: Colors.purple,
+            fontSize: 14.sp,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        if (context.read<LoginCubit>().key.currentState!.validate()) {
+          context.read<LoginCubit>().login();
+        }
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6C5DD3),
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 120),
+        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
       ),
-      child: const Text(
-        'Log In',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+      child: BlocBuilder<LoginCubit, LoginState>(
+        builder: (context, state) {
+          if (state is LoginLoading) {
+            return const CircularProgressIndicator(
+              color: Colors.white,
+            );
+          } else if (state is LoginFailure) {
+            return Text(
+              state.error,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          } else {
+            return Text(
+              'Log In',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
   Widget _buildOrLoginWith() {
-    return const Text(
+    return Text(
       'Or Log in with',
       style: TextStyle(
         color: Colors.grey,
-        fontSize: 14,
+        fontSize: 14.sp,
       ),
     );
   }
 
-  Widget _buildSocialLoginButtons() {
+  Widget _buildSocialLoginButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/image/apple.png'), // Phone Icon
-        _buildSocialBtn('assets/image/facebook.png'), // Facebook Icon
-        _buildSocialBtn('assets/image/google.png'), // Google Icon
+        _buildSocialBtn('assets/images/apple.png',context,() {
+
+        },), // Apple Icon
+        _buildSocialBtn('assets/images/facebook.png',context,() {
+          context.read<LoginCubit>().signInWithFaceBook();
+        },), // Facebook Icon
+        _buildSocialBtn('assets/images/google.png',context,() {
+          context.read<LoginCubit>().signInWithGoogle();
+        },), // Google Icon
       ],
     );
   }
@@ -180,25 +215,26 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('if you are new', style: TextStyle(fontSize: 14)),
+        Text('If you are new', style: TextStyle(fontSize: 14.sp)),
         TextButton(
           onPressed: () {
             Navigator.pushNamed(context, '/signup'); // Navigate to Sign Up Page
           },
-          child: const Text('Create New Account', style: TextStyle(fontSize: 14, color: Color(0xFF9B51E0))),
+          child: Text(
+            'Create New Account',
+            style: TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0)),
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildSocialBtn(String imagePath) {
+  Widget _buildSocialBtn(String imagePath,BuildContext context,void Function()? onTap) {
     return GestureDetector(
-      onTap: () {
-        print('Social button pressed');
-      },
+      onTap: onTap,
       child: Container(
-        height: 60,
-        width: 60,
+        height: 60.h,
+        width: 60.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,
@@ -214,8 +250,8 @@ class LoginScreen extends StatelessWidget {
         child: Center(
           child: Image.asset(
             imagePath,
-            height: 30,
-            width: 30,
+            height: 30.h,
+            width: 30.h,
           ),
         ),
       ),

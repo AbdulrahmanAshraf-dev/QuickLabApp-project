@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import '../login/login_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -16,36 +18,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+    // Initialize ScreenUtil in the build method
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildLogo(),
-              SizedBox(height: 50),
+              SizedBox(height: 50.h),
               _buildTitle(),
-              SizedBox(height: 5),
+              SizedBox(height: 5.h),
               _buildSubtitle(),
-              SizedBox(height: 30),
+              SizedBox(height: 30.h),
               _buildTextField('Enter full name', false),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _buildTextField('Enter your email', false),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _buildPhoneNumberField(),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _buildTextField('Enter your password', true),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
               _buildTermsCheckbox(),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
               _buildSignUpButton(),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
               _buildLoginText(context),
             ],
           ),
@@ -58,12 +61,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Column(
       children: [
         Image.asset(
-          'assets/image/logo.jpg', // Ensure this path is correct
-          height: 100,
+
+          'assets/images/lap.png', // Ensure this path is correct
+          height: 100.h,
         ),
         Text(
-          'Quick Lap',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          'QuickLap',
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
         ),
       ],
     );
@@ -72,14 +76,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _buildTitle() {
     return Text(
       'Sign Up',
-      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
     );
   }
 
   Widget _buildSubtitle() {
     return Text(
       'Use your details to create a new account!',
-      style: TextStyle(color: Colors.grey[600], fontSize: 14),
+      style: TextStyle(color: Colors.grey[600], fontSize: 14.sp),
       textAlign: TextAlign.center,
     );
   }
@@ -92,11 +96,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         filled: true,
         fillColor: Colors.grey[200],
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-        suffixIcon: isPassword ? Icon(Icons.visibility_off) : null,
+        contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 12.w),
+        suffixIcon: isPassword ? const Icon(Icons.visibility_off) : null,
       ),
     );
   }
@@ -111,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onInputValidated: (bool value) {
         // Handle validation result
       },
-      selectorConfig: SelectorConfig(
+      selectorConfig: const SelectorConfig(
         selectorType: PhoneInputSelectorType.DROPDOWN,
         showFlags: true,
       ),
@@ -119,16 +123,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autoValidateMode: AutovalidateMode.onUserInteraction,
       formatInput: false,
       cursorColor: Colors.black,
-      keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
       inputDecoration: InputDecoration(
         hintText: 'Enter phone number',
         filled: true,
         fillColor: Colors.grey[200],
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+        contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 12.w),
       ),
     );
   }
@@ -149,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Expanded(
           child: Text(
             'I agree with Terms & Privacy',
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14.sp),
           ),
         ),
       ],
@@ -160,17 +164,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return ElevatedButton(
       onPressed: _isChecked ? () {} : null, // Disable if checkbox is not checked
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color(0xFF6C5DD3),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 120),
+        backgroundColor: const Color(0xFF6C5DD3),
+        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
       ),
       child: Text(
         'Sign Up',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 16,
+          fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -181,12 +185,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('Already have an account?', style: TextStyle(fontSize: 14)),
+        Text('Already have an account?', style: TextStyle(fontSize: 14.sp)),
         TextButton(
           onPressed: () {
             Navigator.pushNamed(context, '/login'); // Navigate to Login Page
           },
-          child: Text('Login', style: TextStyle(fontSize: 14, color: Color(0xFF9B51E0))),
+          child: Text('Login', style: TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0))),
         ),
       ],
     );

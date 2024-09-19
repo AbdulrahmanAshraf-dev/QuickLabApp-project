@@ -79,7 +79,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/image/lap.png',
+            'assets/images/logo.jpg',
             height: 100.h,
           ),
           Text(
@@ -208,13 +208,13 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/image/apple.png',context,() {
+        _buildSocialBtn('assets/images/apple.png',context,() {
 
         },), // Apple Icon
-        _buildSocialBtn('assets/image/facebook.png',context,() {
+        _buildSocialBtn('assets/images/facebook.png',context,() {
           context.read<LoginCubit>().signInWithFaceBook();
         },), // Facebook Icon
-        _buildSocialBtn('assets/image/google.png',context,() {
+        _buildSocialBtn('assets/images/google.png',context,() {
           context.read<LoginCubit>().signInWithGoogle();
         },), // Google Icon
       ],

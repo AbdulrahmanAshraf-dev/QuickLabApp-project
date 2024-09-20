@@ -1,11 +1,13 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quicklab/login/login_cubit/login_cubit.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:quicklab/signup/cubit/signup_cubit.dart';
 import 'package:quicklab/signup/signup_page.dart';
+import 'helpers/hive_helper.dart';
+import 'package:quicklab/login/login_cubit/login_cubit.dart';
 import 'package:quicklab/splashscreen/splash.dart';
 import 'login/login_page.dart';
 
@@ -13,7 +15,11 @@ import 'login/login_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  await Hive.initFlutter();
+  await Hive.openBox(HiveHelper.boxKey);
+  runApp(MyApp());
+
+
 }
 
 class MyApp extends StatelessWidget {
@@ -25,11 +31,12 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812), // Base size for responsive design
       minTextAdapt: true, // Ensures text adapts to screen size
       splitScreenMode: true, // Ensures it works for split screen
-      builder: (context, child) {
+      builder: (context, child) 
         return MultiBlocProvider(
           providers: [
             BlocProvider(
               create: (context) => LoginCubit(),
+              create: (context) => SignupCubit(),
             ),
 
           ],

@@ -17,7 +17,7 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(HiveHelper.boxKey);
-  runApp(MyApp());
+  runApp(const MyApp());
 
 
 }
@@ -31,12 +31,16 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812), // Base size for responsive design
       minTextAdapt: true, // Ensures text adapts to screen size
       splitScreenMode: true, // Ensures it works for split screen
-      builder: (context, child) 
+      builder: (context, child) {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
               create: (context) => LoginCubit(),
-              create: (context) => SignupCubit(),
+
+            ),
+       BlocProvider(
+         create: (context) => SignupCubit(),
+
             ),
 
           ],

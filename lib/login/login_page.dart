@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quicklab/login/login_cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -8,33 +10,66 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: BlocListener<LoginCubit, LoginState>(
+  listener: (context, state) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.black,
+        content: state is LoginSuccessful
+            ? Text(
+          "Successful",
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        )
+            : state is LoginFailure
+            ?  Text("Try Again",
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),)
+            :  Text("Loading",style: TextStyle(
+          fontSize: 18.sp,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),),
+      ),
+    );
+  },
+  child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildTopIcon(),
-              SizedBox(height: 50.h),
-              _buildLoginTitle(),
-              SizedBox(height: 30.h),
-              _buildEmailTextField(),
-              SizedBox(height: 20.h),
-              _buildPasswordTextField(),
-              SizedBox(height: 10.h),
-              _buildForgotPasswordButton(),
-              SizedBox(height: 20.h),
-              _buildLoginButton(),
-              SizedBox(height: 30.h),
-              _buildOrLoginWith(),
-              SizedBox(height: 40.h),
-              _buildSocialLoginButtons(),
-              SizedBox(height: 50.h),
-              _buildSignUpText(context),
-            ],
+          child: Form(
+            key: context.read<LoginCubit>().key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildTopIcon(),
+                SizedBox(height: 50.h),
+                _buildLoginTitle(),
+                SizedBox(height: 30.h),
+                _buildEmailTextField(context),
+                SizedBox(height: 20.h),
+                _buildPasswordTextField(context),
+                SizedBox(height: 10.h),
+                _buildForgotPasswordButton(),
+                SizedBox(height: 20.h),
+                _buildLoginButton(context),
+                SizedBox(height: 30.h),
+                _buildOrLoginWith(),
+                SizedBox(height: 40.h),
+                _buildSocialLoginButtons(context),
+                SizedBox(height: 50.h),
+                _buildSignUpText(context),
+              ],
+            ),
           ),
         ),
       ),
+),
     );
   }
 
@@ -44,7 +79,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/lap.png',
+            'assets/images/logo.jpg',
             height: 100.h,
           ),
           Text(
@@ -84,8 +119,9 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailTextField() {
+  Widget _buildEmailTextField(BuildContext context) {
     return TextField(
+      controller: context.read<LoginCubit>().emailController,
       decoration: InputDecoration(
         hintText: 'Enter your email',
         filled: true,
@@ -99,8 +135,9 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPasswordTextField() {
+  Widget _buildPasswordTextField(BuildContext context) {
     return TextField(
+      controller: context.read<LoginCubit>().passwordController,
       obscureText: true,
       decoration: InputDecoration(
         hintText: 'Enter your password',
@@ -132,9 +169,13 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        if (context.read<LoginCubit>().key.currentState!.validate()) {
+          context.read<LoginCubit>().login();
+        }
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6C5DD3),
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
@@ -142,14 +183,14 @@ class LoginScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
         ),
       ),
-      child: Text(
-        'Log In',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child:  Text(
+              'Log In',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            )
     );
   }
 
@@ -163,13 +204,19 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialLoginButtons() {
+  Widget _buildSocialLoginButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png'), // Apple Icon
-        _buildSocialBtn('assets/images/facebook.png'), // Facebook Icon
-        _buildSocialBtn('assets/images/google.png'), // Google Icon
+        _buildSocialBtn('assets/images/apple.png',context,() {
+
+        },), // Apple Icon
+        _buildSocialBtn('assets/images/facebook.png',context,() {
+          context.read<LoginCubit>().signInWithFaceBook();
+        },), // Facebook Icon
+        _buildSocialBtn('assets/images/google.png',context,() {
+          context.read<LoginCubit>().signInWithGoogle();
+        },), // Google Icon
       ],
     );
   }
@@ -192,11 +239,9 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialBtn(String imagePath) {
+  Widget _buildSocialBtn(String imagePath,BuildContext context,void Function()? onTap) {
     return GestureDetector(
-      onTap: () {
-        print('Social button pressed');
-      },
+      onTap: onTap,
       child: Container(
         height: 60.h,
         width: 60.h,

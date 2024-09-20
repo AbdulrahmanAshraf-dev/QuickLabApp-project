@@ -45,7 +45,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
-        minSdkVersion 23
+	minSdkVersion 23
     }
 
     buildTypes {
@@ -59,4 +59,8 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies{
+    implementation 'com.facebook.android:facebook-login:latest.release'
+
 }

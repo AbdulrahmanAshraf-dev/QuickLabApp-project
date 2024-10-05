@@ -12,19 +12,13 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: BlocListener<LoginCubit, LoginState>(
   listener: (context, state) {
+    if(state is LoginSuccessful ){
+      Navigator.pushNamed(context, '/home');
+    }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.black,
-        content: state is LoginSuccessful
-            ? Text(
-          "Successful",
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        )
-            : state is LoginFailure
+        content: state is LoginFailure
             ?  Text("Try Again",
             style: TextStyle(
               fontSize: 18.sp,
@@ -208,9 +202,6 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/apple.png',context,() {
-
-        },), // Apple Icon
         _buildSocialBtn('assets/images/facebook.png',context,() {
           context.read<LoginCubit>().signInWithFaceBook();
         },), // Facebook Icon

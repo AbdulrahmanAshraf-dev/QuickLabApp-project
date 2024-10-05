@@ -2,12 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'edit_profile_page.dart';
+
 class PatientProfilePage extends StatelessWidget {
+  const PatientProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      body: SingleChildScrollView( // Wrap the Column with SingleChildScrollView to enable scrolling
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0.w),
           child: Column(
@@ -29,11 +32,25 @@ class PatientProfilePage extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text('Patient Profile',style: TextStyle(fontSize: 18.sp, color: Colors.white),),
-      backgroundColor: Color(0xFF6C5DD3),
+      leading: const SizedBox(),
+      centerTitle: true,
+      toolbarHeight: 60,
+      title: Text(
+        'Patient Profile',
+        style: TextStyle(
+          fontSize: 24.sp,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      backgroundColor: const Color(0xFF6C5DD3),
       actions: [
         IconButton(
-          icon: Icon(Icons.edit, size: 24.sp),
+          icon: Icon(
+            Icons.edit,
+            size: 24.sp,
+            color: Colors.white,
+          ),
           onPressed: () {
             // Navigate to Edit Profile Page
             Navigator.push(
@@ -62,7 +79,9 @@ class PatientProfilePage extends StatelessWidget {
         Text(
           'John Doe',
           style: TextStyle(
-              fontSize: 24.sp, fontWeight: FontWeight.bold, color: Color(0xFF4A4A58)),
+              fontSize: 24.sp,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF4A4A58)),
         ),
         SizedBox(height: 8.h),
         Text(
@@ -86,7 +105,12 @@ class PatientProfilePage extends StatelessWidget {
           children: [
             Text(
               'Personal Information',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold, color: Color(0xFF6A1B9A)),
+
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF6A1B9A)),
+
             ),
             SizedBox(height: 16.h),
             buildInfoRow('Age', '30'),
@@ -110,7 +134,11 @@ class PatientProfilePage extends StatelessWidget {
           children: [
             Text(
               'Medical History',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold, color: Color(0xFF0277BD)),
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF0277BD)),
+
             ),
             SizedBox(height: 16.h),
             buildMedicalHistoryItem('Blood Test - 12/08/2024'),
@@ -129,7 +157,10 @@ class PatientProfilePage extends StatelessWidget {
         onPressed: () {
           // Action for updating contact information
         },
-        child: Text('Update Contact Info', style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+
+        child: Text('Update Contact Info',
+            style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF6C5DD3),
           padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -147,8 +178,14 @@ class PatientProfilePage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600, color: Color(0xFF6A1B9A))),
-          Text(value, style: TextStyle(fontSize: 16.sp, color: Colors.grey[600])),
+          Text(label,
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF6A1B9A))),
+          Text(value,
+              style: TextStyle(fontSize: 16.sp, color: Colors.grey[600])),
+
         ],
       ),
     );
@@ -170,3 +207,4 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 }
+

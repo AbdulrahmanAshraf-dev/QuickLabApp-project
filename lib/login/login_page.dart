@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
       SnackBar(
         backgroundColor: Colors.black,
         content: state is LoginFailure
-            ?  Text("Try Again",
+            ?  Text(state.error,
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,

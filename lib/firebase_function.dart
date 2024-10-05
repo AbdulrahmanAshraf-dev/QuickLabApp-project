@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
+import 'helpers/hive_helper.dart';
+
 class FirebaseFunction {
   static Future<Either<String, dynamic>> signIn(
       String email, String password) async {
@@ -10,6 +12,7 @@ class FirebaseFunction {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user?.uid != null) {
+        HiveHelper.setId(credential.user!.uid);
         return Right(credential);
       }
       return const Right(null);

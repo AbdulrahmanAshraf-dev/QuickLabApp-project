@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:quicklab/home/home_screen.dart';
 import 'package:quicklab/signup/cubit/signup_cubit.dart';
 import 'package:quicklab/signup/signup_page.dart';
 import 'helpers/hive_helper.dart';
@@ -44,14 +45,17 @@ class MyApp extends StatelessWidget {
             ),
 
           ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            initialRoute: '/splash',
-            routes: {
-              '/login': (context) => const LoginScreen(),
-              '/signup': (context) => const SignUpScreen(),
-              '/splash': (context) => const SplashScreen(),
-            },
+          child: SafeArea(
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: '/splash',
+              routes: {
+                '/login': (context) => const LoginScreen(),
+                '/signup': (context) => const SignUpScreen(),
+                '/splash': (context) => const SplashScreen(),
+                '/home': (context) => const HomeScreen(),
+              },
+            ),
           ),
         );
       },

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'edit_profile_page.dart';
@@ -10,7 +11,6 @@ class PatientProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       body: SingleChildScrollView(
-        // Wrap the Column with SingleChildScrollView to enable scrolling
         child: Padding(
           padding: EdgeInsets.all(16.0.w),
           child: Column(
@@ -105,10 +105,12 @@ class PatientProfilePage extends StatelessWidget {
           children: [
             Text(
               'Personal Information',
+
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF6A1B9A)),
+
             ),
             SizedBox(height: 16.h),
             buildInfoRow('Age', '30'),
@@ -136,6 +138,7 @@ class PatientProfilePage extends StatelessWidget {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF0277BD)),
+
             ),
             SizedBox(height: 16.h),
             buildMedicalHistoryItem('Blood Test - 12/08/2024'),
@@ -154,8 +157,10 @@ class PatientProfilePage extends StatelessWidget {
         onPressed: () {
           // Action for updating contact information
         },
+
         child: Text('Update Contact Info',
             style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF6C5DD3),
           padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -180,6 +185,7 @@ class PatientProfilePage extends StatelessWidget {
                   color: Color(0xFF6A1B9A))),
           Text(value,
               style: TextStyle(fontSize: 16.sp, color: Colors.grey[600])),
+
         ],
       ),
     );
@@ -201,3 +207,4 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 }
+

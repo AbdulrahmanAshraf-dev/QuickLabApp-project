@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditProfilePage extends StatelessWidget {
+
   const EditProfilePage({super.key});
 
   @override

@@ -17,7 +17,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+
 
   @override
   void initState() {

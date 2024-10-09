@@ -13,6 +13,8 @@ class BookmarkScreen extends StatelessWidget {
     context.read<GetBookmarkCubit>().getBookmark();
   }
 
+@override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -6,13 +6,14 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'helpers/hive_helper.dart';
 
 class FirebaseFunction {
-  static Future<Either<String, dynamic>> signIn(
+  static Future<Either<String, UserCredential?>> signIn(
       String email, String password) async {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user?.uid != null) {
         HiveHelper.setId(credential.user!.uid);
+        credential.user?.displayName;
         return Right(credential);
       }
       return const Right(null);

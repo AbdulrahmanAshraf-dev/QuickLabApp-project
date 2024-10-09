@@ -8,4 +8,8 @@ final class LoginFailure extends LoginState { String error;
 
 LoginFailure(this.error);
 }
-final class LoginSuccessful extends LoginState {}
+final class LoginSuccessful extends LoginState {
+  dynamic result;
+  LoginSuccessful(this.result);
+}
+

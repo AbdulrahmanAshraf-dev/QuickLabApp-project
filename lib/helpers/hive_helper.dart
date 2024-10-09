@@ -7,6 +7,9 @@ class HiveHelper{
 
   static setId(String token) async {
     await Hive.box(boxKey).put(idKey, token);
+  } 
+  static removeId() async {
+    await Hive.box(boxKey).delete(idKey);
   }
 
   static bool isLoggedIn() {

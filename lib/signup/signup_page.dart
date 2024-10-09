@@ -121,6 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildPhoneNumberField() {
     return InternationalPhoneNumberInput(
+      initialValue: PhoneNumber(isoCode: "EG") ,
       onInputChanged: (PhoneNumber number) {
         setState(() {
           _phoneNumber = number;

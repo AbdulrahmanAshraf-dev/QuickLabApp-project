@@ -16,7 +16,7 @@ class FirebaseFunction {
         return Right(credential);
       }
       return const Right(null);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       return const Left("Wrong Mail or Password");
     }
   }

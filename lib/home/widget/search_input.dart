@@ -4,10 +4,12 @@ class SearchInput extends StatelessWidget {
 
   final tagsList=["Blood Glucose","Urine Culture","Urine Drug Test"];
 
+   SearchInput({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 25, left: 25, right: 25),
+      margin: const EdgeInsets.only(top: 25, left: 25, right: 25),
       child: Column(
         children: [
           Row(
@@ -24,26 +26,24 @@ class SearchInput extends StatelessWidget {
                       borderSide: BorderSide.none
                     ),
                     hintText: 'Search',
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       color: Colors.grey,
                       fontSize: 18
                     ),
-                    prefixIcon: Container(
-                      child: Icon(Icons.search,
-                        color: Colors.grey
-                      ),
+                    prefixIcon: const Icon(Icons.search,
+                      color: Colors.grey
                     )
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10),
-                padding: EdgeInsets.all(15),
+                margin: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: Colors.cyan,
                   borderRadius: BorderRadius.circular(15)
                 ),
-                child: Icon(
+                child: const Icon(
                     Icons.manage_search_rounded,
                   color: Colors.white,
                 ),
@@ -53,14 +53,14 @@ class SearchInput extends StatelessWidget {
           Row(
             children:
               tagsList.map((e) => Container(
-                margin: EdgeInsets.only(top: 10, right: 10),
-                padding: EdgeInsets.all(6),
+                margin: const EdgeInsets.only(top: 10, right: 10),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.cyan.withOpacity(0.3)
                 ),
                 child: Text(e,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey
                 ),),
               ))

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:quicklab/home/models/products_data.dart';
 
-import '../models/items.dart';
 
 
 class DetailPage extends StatelessWidget {
-  final Items items;
+  final ProductsData items;
   DetailPage(this.items);
   @override
   Widget build(BuildContext context) {

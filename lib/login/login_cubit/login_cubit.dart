@@ -24,7 +24,7 @@ class LoginCubit extends Cubit<LoginState> {
         (user) {
           HiveHelper.setId(user?.user!.uid??"");
           currantUser = user ;
-          emit(LoginSuccessful(user));
+          emit(LoginSuccessful(user,true));
         });
 
   }
@@ -33,7 +33,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
     var response = await FirebaseFunction.signInWithGoogle();
     response.fold((error) => emit(LoginFailure(error)), (user) {
-      emit(LoginSuccessful(user.user!.uid));
+      emit(LoginSuccessful(user.user!.uid,false));
       currantUser = user ;
       HiveHelper.setId(user.user!.uid);
     });
@@ -44,7 +44,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
     var response = await FirebaseFunction.signInWithFacebook();
     response.fold((error) => emit(LoginFailure(error)), (user) {
-      emit(LoginSuccessful(user.user!.uid));
+      emit(LoginSuccessful(user.user!.uid,false));
       currantUser = user ;
       HiveHelper.setId(user.user!.uid);
     });

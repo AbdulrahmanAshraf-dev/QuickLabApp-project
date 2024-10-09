@@ -9,7 +9,8 @@ final class LoginFailure extends LoginState { String error;
 LoginFailure(this.error);
 }
 final class LoginSuccessful extends LoginState {
+   bool isEmail ;
   dynamic result;
-  LoginSuccessful(this.result);
+  LoginSuccessful(this.result,this.isEmail);
 }
 

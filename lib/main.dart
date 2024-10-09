@@ -8,8 +8,10 @@ import 'package:quicklab/home/cubit/scans/scans_cubit.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/homescreen.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
+import 'package:quicklab/login/sub_login_cubit/sub_login_cubit.dart';
 import 'package:quicklab/signup/cubit/signup_cubit.dart';
 import 'package:quicklab/signup/signup_page.dart';
+import 'package:quicklab/splashscreen/splash.dart';
 import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 import 'helpers/hive_helper.dart';
 import 'login/login_page.dart';
@@ -40,6 +42,9 @@ class MyApp extends StatelessWidget {
               create: (context) => ProfileCubit()..fetchUserProfile(),
             ),
             BlocProvider(
+              create: (context) => SubLoginCubit(),
+            ),
+            BlocProvider(
               create: (context) => LoginCubit(),
             ),
             BlocProvider(
@@ -62,8 +67,9 @@ class MyApp extends StatelessWidget {
               routes: {
                 '/login': (context) => const LoginScreen(),
                 '/signup': (context) => const SignUpScreen(),
-                '/splash': (context) => const SubLoginScreen(),
+                '/splash': (context) => const SplashScreen(),
                 '/home': (context) => const Homescreen(),
+                '/subLogin': (context) => const SubLoginScreen(),
               },
             ),
           ),

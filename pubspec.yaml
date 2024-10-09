@@ -37,6 +37,7 @@ dependencies:
   firebase_database:
   firebase_storage:
   intl_phone_number_input:
+  carousel_slider:
   flutter_screenutil:
   flutter_bloc:
   get: ^4.6.6

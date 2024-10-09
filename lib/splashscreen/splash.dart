@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quicklab/helpers/hive_helper.dart';
+import 'package:quicklab/home/homescreen.dart';
 import 'package:quicklab/signup/signup_page.dart';
 
 
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => const SignUpScreen()));
+              builder: (context) => HiveHelper.isLoggedIn()?Homescreen(): SignUpScreen()));
     });
     super.initState();
   }

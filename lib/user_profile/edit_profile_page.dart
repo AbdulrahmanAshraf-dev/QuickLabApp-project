@@ -3,42 +3,43 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 
-
 class EditProfilePage extends StatelessWidget {
-
   const EditProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
-      builder: (context, state) {
-        if (state is ProfileSuccessful) {
-          return Scaffold(
-            appBar: _buildAppBar(),
-            body: Padding(
-              padding: EdgeInsets.all(16.w),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 16.h),
-                    _buildProfileAvatar(),
-                    SizedBox(height: 24.h),
-                    _buildProfileForm(state.userData.name,state.userData.phone_number,state.userData.email,context),
-                    SizedBox(height: 32.h),
-                    _buildSaveButton(context),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }else if (state is ProfileFailure){
-          return Text(state.error);
-        }
-        else {
-          return const CircularProgressIndicator();
-        }
-      },
+    return Scaffold(
+      appBar:  _buildAppBar(),
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if (state is ProfileSuccessful) {
+            return  Padding(
+                  padding: EdgeInsets.all(16.w),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16.h),
+                        _buildProfileAvatar(),
+                        SizedBox(height: 24.h),
+                        _buildProfileForm(
+                            state.userData.name,
+                            state.userData.phone_number,
+                            state.userData.email,
+                            context),
+                        SizedBox(height: 32.h),
+                        _buildSaveButton(context),
+                      ],
+                    ),
+                  ),
+                );
+          } else if (state is ProfileFailure) {
+            return Text(state.error);
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 
@@ -69,17 +70,18 @@ class EditProfilePage extends StatelessWidget {
   }
 
   // Profile form fields for Name, Phone, Email, and Address
-  Widget _buildProfileForm(String? name , String? phone , String? email,BuildContext context) {
+  Widget _buildProfileForm(
+      String? name, String? phone, String? email, BuildContext context) {
     return Column(
       children: [
-        _buildTextField(Icons.person, 'Name', name,context.read<ProfileCubit>().nameEditingController),
+        _buildTextField(Icons.person, 'Name', name,
+            context.read<ProfileCubit>().nameEditingController),
         SizedBox(height: 16.h),
-        _buildTextField(Icons.phone, 'Phone Number', phone,context.read<ProfileCubit>().phoneEditingController),
+        _buildTextField(Icons.phone, 'Phone Number', phone,
+            context.read<ProfileCubit>().phoneEditingController),
         SizedBox(height: 16.h),
-        _buildTextField(Icons.email, 'Email', email,context.read<ProfileCubit>().emailEditingController),
-        SizedBox(height: 16.h),
-        _buildTextField(
-            Icons.home, 'Address', '123 Main Street, City, Country',context.read<ProfileCubit>().addressEditingController),
+        _buildTextField(Icons.email, 'Email', email,
+            context.read<ProfileCubit>().addressEditingController),
       ],
     );
   }
@@ -100,16 +102,19 @@ class EditProfilePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.r),
           ),
         ),
-        child: Text('Save Changes',
-          style: TextStyle(fontSize: 18.sp, color: Colors.white),),
+        child: Text(
+          'Save Changes',
+          style: TextStyle(fontSize: 18.sp, color: Colors.white),
+        ),
       ),
     );
   }
 
   // Helper function to build a reusable text field with icons
-  Widget _buildTextField(IconData icon, String? label, String? hint,TextEditingController? controller) {
+  Widget _buildTextField(IconData icon, String? label, String? hint,
+      TextEditingController? controller) {
     return TextFormField(
-      controller: controller ,
+      controller: controller,
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: const Color(0xFF6C5DD3)),
         labelText: label,

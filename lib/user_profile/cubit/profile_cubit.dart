@@ -10,11 +10,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
 
   TextEditingController nameEditingController = TextEditingController();
-  TextEditingController emailEditingController = TextEditingController();
+  TextEditingController? emailEditingController = TextEditingController();
   TextEditingController phoneEditingController = TextEditingController();
   TextEditingController addressEditingController = TextEditingController();
-
-
+  String? gender;
+  String? age;
 
   Future<void> fetchUserProfile() async {
     emit(ProfileLoading());
@@ -27,6 +27,11 @@ class ProfileCubit extends Cubit<ProfileState> {
           .collection('users')
           .doc(HiveHelper.getId())
           .get();
+      nameEditingController.text = userDoc.get("name");
+      emailEditingController?.text = userDoc.get("email") ?? "";
+      phoneEditingController.text = userDoc.get("phone_number");
+      gender = userDoc.get("gender");
+      age = userDoc.get("age");
       if (userDoc.exists) {
         emit(ProfileSuccessful(
             ProfileModel.fromJson(userDoc.data() as Map<String, dynamic>)));
@@ -49,14 +54,18 @@ class ProfileCubit extends Cubit<ProfileState> {
           .collection('users')
           .doc(HiveHelper.getId())
           .update(ProfileModel(
+                  age: age,
+                  gender: gender,
+                  check: true,
                   name: nameEditingController.text,
-                  email: emailEditingController.text,
+                  email: emailEditingController?.text,
                   phone_number: phoneEditingController.text)
               .toJson());
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(HiveHelper.getId())
           .get();
+
       if (userDoc.exists) {
         fetchUserProfile();
         emit(EditProfileSuccessful());

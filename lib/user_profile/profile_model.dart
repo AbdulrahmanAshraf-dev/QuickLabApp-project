@@ -9,9 +9,15 @@ class ProfileModel {
 
   String? age;
 
+  bool? check;
 
-
-  ProfileModel({this.name, this.email, this.phone_number,this.age,this.gender});
+  ProfileModel(
+      {this.name,
+      this.email,
+      this.phone_number,
+      this.age,
+      this.gender,
+      this.check=false});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     name = json["name"];
@@ -19,6 +25,7 @@ class ProfileModel {
     phone_number = json["phone_number"];
     gender = json["gender"];
     age = json["age"];
+    check = json["check"];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +35,7 @@ class ProfileModel {
     map["phone_number"] = phone_number;
     map["gender"] = gender;
     map["age"] = age;
+    map["check"] = check;
     return map;
   }
 }

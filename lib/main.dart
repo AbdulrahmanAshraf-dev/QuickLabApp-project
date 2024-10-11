@@ -39,10 +39,10 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => ProfileCubit()..fetchUserProfile(),
+              create: (context) => SubLoginCubit(),
             ),
             BlocProvider(
-              create: (context) => SubLoginCubit(),
+              create: (context) => ProfileCubit()..fetchUserProfile(),
             ),
             BlocProvider(
               create: (context) => LoginCubit(),

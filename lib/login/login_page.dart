@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quicklab/helpers/hive_helper.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -12,17 +11,23 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) {
+        listener: (context, state) async{
           if (state is LoginSuccessful) {
             if (state.isEmail==true) {
               Navigator.pushNamed(context, '/home');
             }
             else {
-              if (HiveHelper.getCheckLogin()==false) {
-                Navigator.pushNamed(context, '/subLogin');
-              }else{
-                Navigator.pushNamed(context, '/home');
-              }
+              bool check = await context.read<LoginCubit>().fetchUserProfile();
+                if (check==false) {
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/subLogin');
+                  }
+                }
+                else{
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/home');
+                  }
+                }
             }
           }
           else if (state is LoginFailure) {
@@ -44,7 +49,6 @@ class LoginScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
             child: Form(
-              key: context.read<LoginCubit>().key,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -173,9 +177,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-          if (context.read<LoginCubit>().key.currentState!.validate()) {
             context.read<LoginCubit>().login();
-          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6C5DD3),

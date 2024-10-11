@@ -30,7 +30,8 @@ class PatientProfilePage extends StatelessWidget {
                           state.userData.email,
                         ),
                         SizedBox(height: 24.h),
-                        buildPersonalInfoCard(),
+                        buildPersonalInfoCard(
+                            state.userData.age, state.userData.gender),
                       ],
                     );
                   } else if (state is ProfileFailure) {
@@ -64,7 +65,7 @@ class PatientProfilePage extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: const Color(0xFF6C5DD3),
+      backgroundColor: Colors.cyan,
       actions: [
         IconButton(
           icon: Icon(
@@ -113,7 +114,7 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildPersonalInfoCard() {
+  Widget buildPersonalInfoCard(String? age, String? gender) {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
@@ -131,9 +132,8 @@ class PatientProfilePage extends StatelessWidget {
                   color: Color(0xFF6A1B9A)),
             ),
             SizedBox(height: 16.h),
-            buildInfoRow('Age', '30'),
-            buildInfoRow('Gender', 'Male'),
-            buildInfoRow('Address', '123 Main Street, City, Country'),
+            buildInfoRow('Age', age ?? ""),
+            buildInfoRow('Gender', gender ?? ""),
           ],
         ),
       ),

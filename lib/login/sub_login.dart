@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:quicklab/login/sub_login_cubit/sub_login_cubit.dart';
 
-import '../helpers/hive_helper.dart';
-
 class SubLoginScreen extends StatefulWidget {
   const SubLoginScreen({super.key});
 
@@ -17,60 +15,62 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: BlocListener<SubLoginCubit, SubLoginState>(
-          listener: (context, state) {
-            if (state is SubLoginSuccessful) {
-              Navigator.pushNamed(context, '/home');
-            } else if (state is SubLoginFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    backgroundColor: Colors.black,
-                    content: Text(
-                      state.error,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    )),
-              );
-            }
-          },
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-              child: Form(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _buildTopIcon(),
-                    SizedBox(height: 50.h),
-                    _buildLoginTitle(),
-                    SizedBox(height: 30.h),
-                    _buildTextField('Enter full name', false),
-                    SizedBox(height: 20.h),
-                    _buildPhoneNumberField(),
-                    SizedBox(height: 20.h),
-                    _buildMaleOrFemale(),
-                    SizedBox(height: 20.h),
-                    _buildSelectedAge(context),
-                    SizedBox(height: 20.h),
-                    _buildFinishButton(context),
-                    SizedBox(height: 20.h),
-                  ],
-                ),
+      backgroundColor: Colors.white,
+      body: BlocListener<SubLoginCubit, SubLoginState>(
+        listener: (context, state) {
+          if (state is SubLoginSuccessful) {
+            Navigator.pushNamed(context, '/home');
+          } else if (state is SubLoginFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  backgroundColor: Colors.black,
+                  content: Text(
+                    state.error,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  )),
+            );
+          }
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+            child: Form(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildTopIcon(),
+                  SizedBox(height: 50.h),
+                  _buildLoginTitle(),
+                  SizedBox(height: 30.h),
+                  _buildTextField('Enter full name', false),
+                  SizedBox(height: 20.h),
+                  _buildPhoneNumberField(),
+                  SizedBox(height: 20.h),
+                  _buildMaleOrFemale(),
+                  SizedBox(height: 20.h),
+                  _buildSelectedAge(context),
+                  SizedBox(height: 20.h),
+                  _buildFinishButton(context),
+                  SizedBox(height: 20.h),
+                ],
               ),
             ),
           ),
         ),
-      );
+      ),
+    );
   }
 
   DropdownButton<String> _buildSelectedAge(BuildContext context) {
     return DropdownButton<String>(
       hint: const Text('Select Age'),
-      value: context.read<SubLoginCubit>().selectedAge,
+      value: context
+          .read<SubLoginCubit>()
+          .selectedAge,
       items: List.generate(100, (index) => (index + 1).toString())
           .map((String value) {
         return DropdownMenuItem<String>(
@@ -80,7 +80,9 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
       }).toList(),
       onChanged: (String? newValue) {
         setState(() {
-          context.read<SubLoginCubit>().selectedAge = newValue!;
+          context
+              .read<SubLoginCubit>()
+              .selectedAge = newValue!;
         });
       },
     );
@@ -93,10 +95,14 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
           title: const Text('Male'),
           leading: Radio<String>(
             value: 'Male',
-            groupValue: context.read<SubLoginCubit>().selectedGender,
+            groupValue: context
+                .read<SubLoginCubit>()
+                .selectedGender,
             onChanged: (String? value) {
               setState(() {
-                context.read<SubLoginCubit>().selectedGender = value!;
+                context
+                    .read<SubLoginCubit>()
+                    .selectedGender = value!;
               });
             },
           ),
@@ -107,10 +113,14 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
           title: const Text('Female'),
           leading: Radio<String>(
             value: 'Female',
-            groupValue: context.read<SubLoginCubit>().selectedGender,
+            groupValue: context
+                .read<SubLoginCubit>()
+                .selectedGender,
             onChanged: (String? value) {
               setState(() {
-                context.read<SubLoginCubit>().selectedGender = value!;
+                context
+                    .read<SubLoginCubit>()
+                    .selectedGender = value!;
               });
             },
           ),
@@ -160,7 +170,9 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
   Widget _buildTextField(String hintText, bool isPassword) {
     return TextField(
       obscureText: isPassword,
-      controller:  context.read<SubLoginCubit>().nameEditingController,
+      controller: context
+          .read<SubLoginCubit>()
+          .nameEditingController,
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
@@ -177,11 +189,12 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
 
   Widget _buildPhoneNumberField() {
     return InternationalPhoneNumberInput(
-      textFieldController: context.read<SubLoginCubit>().phoneEditingController,
+      textFieldController: context
+          .read<SubLoginCubit>()
+          .phoneEditingController,
       initialValue: PhoneNumber(isoCode: "EG"),
       onInputChanged: (PhoneNumber number) {
-        setState(() {
-        });
+        setState(() {});
       },
       onInputValidated: (bool value) {
         // Handle validation result
@@ -193,7 +206,7 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
       formatInput: false,
       cursorColor: Colors.black,
       keyboardType:
-          const TextInputType.numberWithOptions(signed: true, decimal: true),
+      const TextInputType.numberWithOptions(signed: true, decimal: true),
       inputDecoration: InputDecoration(
         hintText: 'Enter phone number',
         filled: true,
@@ -210,8 +223,7 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
   Widget _buildFinishButton(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-            context.read<SubLoginCubit>().updateUserProfile();
-            HiveHelper.checkLogin(true);
+          context.read<SubLoginCubit>().updateUserProfile();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6C5DD3),

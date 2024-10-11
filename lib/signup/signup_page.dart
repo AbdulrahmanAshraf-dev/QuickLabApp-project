@@ -18,7 +18,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -31,7 +30,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (state is SignupSuccessState) {
           // Navigate to another screen or show success message
         } else if (state is SignupErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.msg)));
         }
       },
       child: Scaffold(
@@ -54,7 +54,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 20.h),
                 _buildPhoneNumberField(),
                 SizedBox(height: 20.h),
-                _buildTextField('Enter your password', true, _passwordController),
+                _buildTextField(
+                    'Enter your password', true, _passwordController),
+                SizedBox(height: 20.h),
+                _buildMaleOrFemale(),
+                SizedBox(height: 20.h),
+                _buildSelectedAge(context),
                 SizedBox(height: 12.h),
                 _buildTermsCheckbox(),
                 SizedBox(height: 12.h),
@@ -68,13 +73,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
+  DropdownButton<String> _buildSelectedAge(BuildContext context) {
+    return DropdownButton<String>(
+      hint: const Text('Select Age'),
+      value: context
+          .read<SignupCubit>()
+          .selectedAge,
+      items: List.generate(100, (index) => (index + 1).toString())
+          .map((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: (String? newValue) {
+        setState(() {
+          context
+              .read<SignupCubit>()
+              .selectedAge = newValue!;
+        });
+      },
+    );
+  }
+  Row _buildMaleOrFemale() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Expanded(
+        child: ListTile(
+          title: const Text('Male'),
+          leading: Radio<String>(
+            value: 'Male',
+            groupValue: context.read<SignupCubit>().selectedGender,
+            onChanged: (String? value) {
+              setState(() {
+                context.read<SignupCubit>().selectedGender = value!;
+              });
+            },
+          ),
+        ),
+      ),
+      Expanded(
+        child: ListTile(
+          title: const Text('Female'),
+          leading: Radio<String>(
+            value: 'Female',
+            groupValue: context.read<SignupCubit>().selectedGender,
+            onChanged: (String? value) {
+              setState(() {
+                context.read<SignupCubit>().selectedGender = value!;
+              });
+            },
+          ),
+        ),
+      ),
+    ]);
+  }
 
   Widget _buildLogo() {
     return Column(
       children: [
         Image.asset(
-
           'assets/images/logo.jpg', // Ensure this path is correct
           height: 100.h,
         ),
@@ -101,7 +158,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildTextField(String hintText, bool isPassword, TextEditingController controller) {
+  Widget _buildTextField(
+      String hintText, bool isPassword, TextEditingController controller) {
     return TextField(
       obscureText: isPassword,
       controller: controller,
@@ -121,7 +179,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildPhoneNumberField() {
     return InternationalPhoneNumberInput(
-      initialValue: PhoneNumber(isoCode: "EG") ,
+      initialValue: PhoneNumber(isoCode: "EG"),
       onInputChanged: (PhoneNumber number) {
         setState(() {
           _phoneNumber = number;
@@ -131,15 +189,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Handle validation result
       },
       selectorConfig: const SelectorConfig(
-        selectorType: PhoneInputSelectorType.DROPDOWN,
-        showFlags: true
-      ),
+          selectorType: PhoneInputSelectorType.DROPDOWN, showFlags: true),
       ignoreBlank: false,
-
       autoValidateMode: AutovalidateMode.onUserInteraction,
       formatInput: false,
       cursorColor: Colors.black,
-      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+      keyboardType:
+          const TextInputType.numberWithOptions(signed: true, decimal: true),
       inputDecoration: InputDecoration(
         hintText: 'Enter phone number',
         filled: true,
@@ -178,14 +234,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildSignUpButton() {
     return ElevatedButton(
-      onPressed: _isChecked ? () {
-        context.read<SignupCubit>().signUpWithEmailPassword(
-            _emailController.text,
-            _passwordController.text,
-            _nameController.text,
-            _phoneNumber.phoneNumber! // Pass the formatted phone number
-        );
-      } : null, // Disable if checkbox is not checked
+      onPressed: _isChecked
+          ? () {
+              context.read<SignupCubit>().signUpWithEmailPassword(
+                  _emailController.text,
+                  _passwordController.text,
+                  _nameController.text,
+                  _phoneNumber.phoneNumber! // Pass the formatted phone number
+                  );
+            }
+          : null, // Disable if checkbox is not checked
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF6C5DD3),
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
@@ -213,7 +271,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           onPressed: () {
             Navigator.pushNamed(context, '/login'); // Navigate to Login Page
           },
-          child: Text('Login', style: TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0))),
+          child: Text('Login',
+              style:
+                  TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0))),
         ),
       ],
     );

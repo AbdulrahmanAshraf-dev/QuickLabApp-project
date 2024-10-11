@@ -3,16 +3,10 @@ import 'package:hive/hive.dart';
 class HiveHelper {
   static String boxKey = "BoxKey";
   static String idKey = "idKey";
-  static String checkKey = "check";
+  static String? checkKey = HiveHelper.getId();
 
   static setId(String token) async {
     await Hive.box(boxKey).put(idKey, token);
-  }
-
-  static checkLogin(bool? check) async {
-    await Hive.box(boxKey).put(checkKey, check);
-  } static getCheckLogin() async {
-    await Hive.box(boxKey).get(checkKey);
   }
 
   static removeId() async {

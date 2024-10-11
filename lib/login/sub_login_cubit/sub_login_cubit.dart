@@ -24,6 +24,7 @@ class SubLoginCubit extends Cubit<SubLoginState> {
           .collection('users')
           .doc(HiveHelper.getId())
           .set(ProfileModel(
+                  check: true,
                   name: nameEditingController.text,
                   phone_number: phoneEditingController.text,
                   age: selectedAge,

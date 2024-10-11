@@ -1,3 +1,5 @@
+
+
 class ProfileModel {
   String? name;
 
@@ -11,16 +13,20 @@ class ProfileModel {
 
   bool? check;
 
+  String? image;
+
   ProfileModel(
       {this.name,
+      this.image,
       this.email,
       this.phone_number,
       this.age,
       this.gender,
-      this.check=false});
+      this.check = false});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     name = json["name"];
+    image = json["image"];
     email = json["email"];
     phone_number = json["phone_number"];
     gender = json["gender"];
@@ -36,6 +42,7 @@ class ProfileModel {
     map["gender"] = gender;
     map["age"] = age;
     map["check"] = check;
+    map["image"] = image;
     return map;
   }
 }

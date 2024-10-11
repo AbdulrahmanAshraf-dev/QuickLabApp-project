@@ -12,7 +12,9 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   EditProfileCubit() : super(EditProfileInitial());
 
 
-  Future<void> updateUserProfile(ProfileModel profile,BuildContext context) async {
+
+  Future<void> updateUserProfile(
+      ProfileModel profile, BuildContext context) async {
     emit(ProfileLoading());
     try {
       if (HiveHelper.getId() == null) {
@@ -23,13 +25,14 @@ class EditProfileCubit extends Cubit<EditProfileState> {
           .collection('users')
           .doc(HiveHelper.getId())
           .update(ProfileModel(
-          age: context.read<ProfileCubit>().age,
-          gender: context.read<ProfileCubit>().gender,
-          check: true,
-          name:profile.name,
-          email: profile.email,
-          phone_number: profile.phone_number)
-          .toJson());
+                  image: context.read<ProfileCubit>().image,
+                  age: context.read<ProfileCubit>().age,
+                  gender: context.read<ProfileCubit>().gender,
+                  check: true,
+                  name: profile.name,
+                  email: profile.email,
+                  phone_number: profile.phone_number)
+              .toJson());
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(HiveHelper.getId())

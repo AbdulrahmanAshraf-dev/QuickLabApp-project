@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 import 'package:quicklab/user_profile/profile_model.dart';
 
@@ -30,7 +33,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 16.h),
-                      _buildProfileAvatar(),
+                      _buildProfileAvatar(state.userData.image),
                       SizedBox(height: 24.h),
                       _buildProfileForm(
                           state.userData.name,
@@ -69,21 +72,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor:Colors.transparent,
+      backgroundColor: Colors.transparent,
     );
   }
 
   // Profile avatar
-  Widget _buildProfileAvatar() {
+  Widget _buildProfileAvatar(String? image) {
     return Center(
-      child: CircleAvatar(
-        radius: 50.r,
-        backgroundColor: const Color(0xFF6C5DD3),
-        child: Icon(
-          Icons.person,
-          size: 50.r,
-          color: Colors.white,
-        ),
+      child: GestureDetector(
+        onTap: () {
+          ImagePicker()
+              .pickImage(source: ImageSource.gallery)
+              .then((v) {
+            context.read<ProfileCubit>().image=v?.path;
+              });
+        },
+        child: image == null
+            ? CircleAvatar(
+                radius: 50.r,
+                backgroundColor: const Color(0xFF6C5DD3),
+                child: Icon(
+                  Icons.person,
+                  size: 50.r,
+                  color: Colors.white,
+                ),
+              )
+            : CircleAvatar(
+                radius: 50.r,
+                backgroundColor: const Color(0xFF6C5DD3),
+                backgroundImage: FileImage(File(image)),
+              ),
       ),
     );
   }
@@ -162,6 +180,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         onPressed: () {
           context.read<EditProfileCubit>().updateUserProfile(
               ProfileModel(
+                image: context.read<ProfileCubit>().image,
                 name: context.read<ProfileCubit>().nameEditingController.text,
                 phone_number:
                     context.read<ProfileCubit>().phoneEditingController.text,

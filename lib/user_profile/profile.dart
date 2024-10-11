@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,10 +26,8 @@ class PatientProfilePage extends StatelessWidget {
                   if (state is ProfileSuccessful) {
                     return Column(
                       children: [
-                        buildProfileHeader(
-                          state.userData.name,
-                          state.userData.phone_number,
-                        ),
+                        buildProfileHeader(state.userData.name,
+                            state.userData.phone_number, context),
                         SizedBox(height: 24.h),
                         buildPersonalInfoCard(
                             state.userData.age, state.userData.gender),
@@ -84,18 +84,25 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildProfileHeader(String? name, String? phone) {
+  Widget buildProfileHeader(String? name, String? phone, BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 50.r,
-          backgroundColor: Colors.purpleAccent,
-          child: Icon(
-            Icons.person,
-            size: 50.r,
-            color: Colors.white,
-          ),
-        ),
+        context.read<ProfileCubit>().image == null
+            ? CircleAvatar(
+                radius: 50.r,
+                backgroundColor: const Color(0xFF6C5DD3),
+                child: Icon(
+                  Icons.person,
+                  size: 50.r,
+                  color: Colors.white,
+                ),
+              )
+            : CircleAvatar(
+                radius: 50.r,
+                backgroundColor: const Color(0xFF6C5DD3),
+                backgroundImage:
+                    FileImage(File(context.read<ProfileCubit>().image!)),
+              ),
         SizedBox(height: 16.h),
         Text(
           name ?? "",

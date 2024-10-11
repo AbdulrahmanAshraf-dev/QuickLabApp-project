@@ -14,6 +14,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController phoneEditingController = TextEditingController();
   String? gender='Male';
   String? age;
+  String? image;
 
   Future<void> fetchUserProfile() async {
     emit(ProfileLoading());
@@ -31,6 +32,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       phoneEditingController.text = userDoc.get("phone_number");
       gender = userDoc.get("gender");
       age = userDoc.get("age");
+      image=userDoc.get("image");
       if (userDoc.exists) {
         emit(ProfileSuccessful(
             ProfileModel.fromJson(userDoc.data() as Map<String, dynamic>)));
@@ -41,6 +43,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileFailure('Failed to fetch user profile: $e'));
     }
   }
+
+
 
 
 }

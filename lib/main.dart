@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
               create: (context) => SubLoginCubit(),
             ),
             BlocProvider(
-              create: (context) => ProfileCubit()..fetchUserProfile(),
+              create: (context) => ProfileCubit(),
             ),
             BlocProvider(
               create: (context) => LoginCubit(),
@@ -60,18 +60,16 @@ class MyApp extends StatelessWidget {
               create: (context) => GetBookmarkCubit()..getBookmark(),
             ),
           ],
-          child: SafeArea(
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              initialRoute: '/splash',
-              routes: {
-                '/login': (context) => const LoginScreen(),
-                '/signup': (context) => const SignUpScreen(),
-                '/splash': (context) => const SplashScreen(),
-                '/home': (context) => const Homescreen(),
-                '/subLogin': (context) => const SubLoginScreen(),
-              },
-            ),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/splash',
+            routes: {
+              '/login': (context) => const LoginScreen(),
+              '/signup': (context) => const SignUpScreen(),
+              '/splash': (context) => const SplashScreen(),
+              '/home': (context) => const Homescreen(),
+              '/subLogin': (context) => const SubLoginScreen(),
+            },
           ),
         );
       },

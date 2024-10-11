@@ -27,7 +27,6 @@ class PatientProfilePage extends StatelessWidget {
                         buildProfileHeader(
                           state.userData.name,
                           state.userData.phone_number,
-                          state.userData.email,
                         ),
                         SizedBox(height: 24.h),
                         buildPersonalInfoCard(
@@ -43,6 +42,7 @@ class PatientProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               buildMedicalHistorySection(),
+              SizedBox(height: 16.h),
               buildUpdateContactButton(context),
             ],
           ),
@@ -61,17 +61,17 @@ class PatientProfilePage extends StatelessWidget {
         'Patient Profile',
         style: TextStyle(
           fontSize: 24.sp,
-          color: Colors.white,
+          color: Colors.black,
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: Colors.cyan,
+      backgroundColor: Colors.transparent,
       actions: [
         IconButton(
           icon: Icon(
             Icons.edit,
             size: 24.sp,
-            color: Colors.white,
+            color: Colors.black,
           ),
           onPressed: () {
             Navigator.push(
@@ -84,7 +84,7 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildProfileHeader(String? name, String? phone, String? email) {
+  Widget buildProfileHeader(String? name, String? phone) {
     return Column(
       children: [
         CircleAvatar(
@@ -106,7 +106,7 @@ class PatientProfilePage extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          'Phone: $phone\nEmail: $email',
+          'Phone: $phone',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16.sp, color: Colors.grey),
         ),

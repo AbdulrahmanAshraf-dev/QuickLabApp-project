@@ -8,10 +8,16 @@ class RecentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(centerTitle: true,title: Text(
+        "Reports",
+        style: TextStyle(
+            fontSize: 24.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.black),
+      ),),
       body: Center(
         child: Column(
           children: [
-            titleRecent(),
             SizedBox(
               height: 5.h,
             ),
@@ -46,8 +52,8 @@ class RecentScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 3),
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.cyan)),
+                  color: Colors.cyan[100],
+                    borderRadius: BorderRadius.circular(12),),
                 child: ListTile(
                   leading: const CircleAvatar(),
                   title: Text(
@@ -65,29 +71,5 @@ class RecentScreen extends StatelessWidget {
     );
   }
 
-  Widget titleRecent() {
-    return SizedBox(
-      height: 60,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.access_time,
-            color: Colors.black,
-            size: 30,
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-          Text(
-            "Recent",
-            style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black),
-          ),
-        ],
-      ),
-    );
-  }
+
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
+import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -178,6 +179,7 @@ class LoginScreen extends StatelessWidget {
     return ElevatedButton(
         onPressed: () {
             context.read<LoginCubit>().login();
+            context.read<ProfileCubit>().fetchUserProfile();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6C5DD3),

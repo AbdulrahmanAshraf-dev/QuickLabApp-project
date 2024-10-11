@@ -2,43 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
+import 'package:quicklab/user_profile/profile_model.dart';
 
-class EditProfilePage extends StatelessWidget {
+import 'edit_profile_cubit/edit_profile_cubit.dart';
+
+class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
+  State<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:  _buildAppBar(),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state is ProfileSuccessful) {
-            return  Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 16.h),
-                        _buildProfileAvatar(),
-                        SizedBox(height: 24.h),
-                        _buildProfileForm(
-                            state.userData.name,
-                            state.userData.phone_number,
-                            state.userData.email,
-                            context),
-                        SizedBox(height: 32.h),
-                        _buildSaveButton(context),
-                      ],
-                    ),
+    return BlocProvider(
+      create: (context) => EditProfileCubit(),
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state is ProfileSuccessful) {
+              return Padding(
+                padding: EdgeInsets.all(16.w),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 16.h),
+                      _buildProfileAvatar(),
+                      SizedBox(height: 24.h),
+                      _buildProfileForm(
+                          state.userData.name,
+                          state.userData.phone_number,
+                          state.userData.email,
+                          context),
+                      SizedBox(height: 16.h),
+                      _buildMaleOrFemale(),
+                      SizedBox(height: 16.h),
+                      _buildSelectedAge(),
+                      SizedBox(height: 32.h),
+                      _buildSaveButton(context),
+                    ],
                   ),
-                );
-          } else if (state is ProfileFailure) {
-            return Text(state.error);
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
+                ),
+              );
+            } else if (state is ProfileFailure) {
+              return Center(child: Text(state.error));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }
@@ -48,9 +63,13 @@ class EditProfilePage extends StatelessWidget {
     return AppBar(
       title: Text(
         'Edit Profile',
-        style: TextStyle(fontSize: 18.sp, color: Colors.white),
+        style: TextStyle(
+          fontSize: 24.sp,
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-      backgroundColor: Color(0xFF6C5DD3),
+      backgroundColor:Colors.transparent,
     );
   }
 
@@ -79,11 +98,60 @@ class EditProfilePage extends StatelessWidget {
         SizedBox(height: 16.h),
         _buildTextField(Icons.phone, 'Phone Number', phone,
             context.read<ProfileCubit>().phoneEditingController),
-        SizedBox(height: 16.h),
-        _buildTextField(Icons.email, 'Email', email,
-            context.read<ProfileCubit>().addressEditingController),
       ],
     );
+  }
+
+  DropdownButton<String> _buildSelectedAge() {
+    return DropdownButton<String>(
+      hint: const Text('Select Age'),
+      value: context.read<ProfileCubit>().age,
+      items: List.generate(100, (index) => (index + 1).toString())
+          .map((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: (String? newValue) {
+        setState(() {
+          context.read<ProfileCubit>().age = newValue!;
+        });
+      },
+    );
+  }
+
+  Row _buildMaleOrFemale() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Expanded(
+        child: ListTile(
+          title: const Text('Male'),
+          leading: Radio<String>(
+            value: 'Male',
+            groupValue: context.read<ProfileCubit>().gender,
+            onChanged: (String? value) {
+              setState(() {
+                context.read<ProfileCubit>().gender = value!;
+              });
+            },
+          ),
+        ),
+      ),
+      Expanded(
+        child: ListTile(
+          title: const Text('Female'),
+          leading: Radio<String>(
+            value: 'Female',
+            groupValue: context.read<ProfileCubit>().gender,
+            onChanged: (String? value) {
+              setState(() {
+                context.read<ProfileCubit>().gender = value!;
+              });
+            },
+          ),
+        ),
+      ),
+    ]);
   }
 
   // Save Changes button
@@ -92,8 +160,13 @@ class EditProfilePage extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          context.read<ProfileCubit>().updateUserProfile();
-          Navigator.pop(context);
+          context.read<EditProfileCubit>().updateUserProfile(
+              ProfileModel(
+                name: context.read<ProfileCubit>().nameEditingController.text,
+                phone_number:
+                    context.read<ProfileCubit>().phoneEditingController.text,
+              ),
+              context);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6C5DD3),

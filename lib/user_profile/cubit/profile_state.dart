@@ -14,11 +14,3 @@ final class ProfileFailure extends ProfileState {
 
   ProfileFailure(this.error);
 }
-final class EditProfileLoading extends ProfileState {}
-final class EditProfileSuccessful extends ProfileState {
-}
-final class EditProfileFailure extends ProfileState {
-  String error ;
-
-  EditProfileFailure(this.error);
-}

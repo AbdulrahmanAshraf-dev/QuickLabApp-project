@@ -78,7 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Center(
       child: CircleAvatar(
         radius: 50.r,
-        backgroundColor: Colors.purpleAccent,
+        backgroundColor: const Color(0xFF6C5DD3),
         child: Icon(
           Icons.person,
           size: 50.r,

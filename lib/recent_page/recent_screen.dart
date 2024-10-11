@@ -25,52 +25,55 @@ class RecentScreen extends StatelessWidget {
   }
 
   ListView listOfRecent() {
-    return ListView.separated(
+    return ListView.builder(
       itemCount: 30,
       itemBuilder: (context, index) {
-        return Slidable(
-          startActionPane: ActionPane(motion: const ScrollMotion(), children: [
-            SlidableAction(
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  topLeft: Radius.circular(12)),
-              onPressed: (context) {},
-              backgroundColor: const Color(0xFFFE4A49),
-              foregroundColor: Colors.white,
-              icon: Icons.delete,
-              label: 'Delete',
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Slidable(
+            startActionPane:
+                ActionPane(motion: const ScrollMotion(), children: [
+              SlidableAction(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                onPressed: (context) {},
+                backgroundColor: const Color(0xFFFE4A49),
+                foregroundColor: Colors.white,
+                icon: Icons.delete,
+                label: 'Delete',
+              ),
+            ]),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.cyan)),
+                child: ListTile(
+                  leading: const CircleAvatar(),
+                  title: Text(
+                    "Blood Report",
+                    style:
+                        TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: const Text("PDF"),
+                ),
+              ),
             ),
-          ]),
-          child: ListTile(
-            leading: const CircleAvatar(),
-            title: Text(
-              "Blood Report",
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
-            subtitle: const Text("PDF"),
           ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const Divider(
-          indent: 15,
-          endIndent: 15,
-          color: Colors.black,
         );
       },
     );
   }
 
   Widget titleRecent() {
-    return Container(
+    return SizedBox(
       height: 60,
-      color: const Color(0xFF6C5DD3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
             Icons.access_time,
-            color: Colors.white,
+            color: Colors.black,
             size: 30,
           ),
           SizedBox(
@@ -81,7 +84,7 @@ class RecentScreen extends StatelessWidget {
             style: TextStyle(
                 fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
-                color: Colors.white),
+                color: Colors.black),
           ),
         ],
       ),

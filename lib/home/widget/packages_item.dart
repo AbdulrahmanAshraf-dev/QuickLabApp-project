@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; // Make sure to import flutter_bloc
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
 import 'package:quicklab/home/models/products_data.dart';
 import '../../detail/detail.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
+import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -11,59 +12,70 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<LoginCubit, LoginState>(
-  listener: (context, state) {
-    if(state is LoginSuccessful ){
-      Navigator.pushNamed(context, '/home');
-    }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.black,
-        content: state is LoginFailure
-            ?  Text(state.error,
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),)
-            :  Text("Loading",style: TextStyle(
-          fontSize: 18.sp,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),),
-      ),
-    );
-  },
-  child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-          child: Form(
-            key: context.read<LoginCubit>().key,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildTopIcon(),
-                SizedBox(height: 50.h),
-                _buildLoginTitle(),
-                SizedBox(height: 30.h),
-                _buildEmailTextField(context),
-                SizedBox(height: 20.h),
-                _buildPasswordTextField(context),
-                SizedBox(height: 10.h),
-                _buildForgotPasswordButton(),
-                SizedBox(height: 20.h),
-                _buildLoginButton(context),
-                SizedBox(height: 30.h),
-                _buildOrLoginWith(),
-                SizedBox(height: 40.h),
-                _buildSocialLoginButtons(context),
-                SizedBox(height: 50.h),
-                _buildSignUpText(context),
-              ],
+        listener: (context, state) async{
+          if (state is LoginSuccessful) {
+            if (state.isEmail==true) {
+              Navigator.pushNamed(context, '/home');
+            }
+            else {
+              bool check = await context.read<LoginCubit>().fetchUserProfile();
+                if (check==false) {
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/subLogin');
+                  }
+                }
+                else{
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/home');
+                  }
+                }
+            }
+          }
+          else if (state is LoginFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  backgroundColor: Colors.black,
+                  content: Text(
+                    state.error,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  )),
+            );
+          }
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+            child: Form(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildTopIcon(),
+                  SizedBox(height: 50.h),
+                  _buildLoginTitle(),
+                  SizedBox(height: 30.h),
+                  _buildEmailTextField(context),
+                  SizedBox(height: 20.h),
+                  _buildPasswordTextField(context),
+                  SizedBox(height: 10.h),
+                  _buildForgotPasswordButton(),
+                  SizedBox(height: 20.h),
+                  _buildLoginButton(context),
+                  SizedBox(height: 30.h),
+                  _buildOrLoginWith(),
+                  SizedBox(height: 40.h),
+                  _buildSocialLoginButtons(context),
+                  SizedBox(height: 50.h),
+                  _buildSignUpText(context),
+                ],
+              ),
             ),
           ),
         ),
       ),
-),
     );
   }
 
@@ -165,27 +177,32 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        if (context.read<LoginCubit>().key.currentState!.validate()) {
-          context.read<LoginCubit>().login();
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF6C5DD3),
-        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r),
+        onPressed: () {
+            context.read<LoginCubit>().login();
+            context.read<ProfileCubit>().fetchUserProfile();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF6C5DD3),
+          padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.r),
+          ),
         ),
-      ),
-      child:  Text(
-              'Log In',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-    );
+        child: BlocBuilder<LoginCubit, LoginState>(
+  builder: (context, state) {
+    if(state is LoginLoading){
+      return const CircularProgressIndicator(color: Colors.white,);
+    }
+    return Text(
+          'Log In',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+  },
+));
   }
 
   Widget _buildOrLoginWith() {
@@ -202,12 +219,20 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildSocialBtn('assets/images/facebook.png',context,() {
-          context.read<LoginCubit>().signInWithFaceBook();
-        },), // Facebook Icon
-        _buildSocialBtn('assets/images/google.png',context,() {
-          context.read<LoginCubit>().signInWithGoogle();
-        },), // Google Icon
+        _buildSocialBtn(
+          'assets/images/facebook.png',
+          context,
+          () {
+            context.read<LoginCubit>().signInWithFaceBook();
+          },
+        ), // Facebook Icon
+        _buildSocialBtn(
+          'assets/images/google.png',
+          context,
+          () {
+            context.read<LoginCubit>().signInWithGoogle();
+          },
+        ), // Google Icon
       ],
     );
   }
@@ -230,7 +255,8 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialBtn(String imagePath,BuildContext context,void Function()? onTap) {
+  Widget _buildSocialBtn(
+      String imagePath, BuildContext context, void Function()? onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(

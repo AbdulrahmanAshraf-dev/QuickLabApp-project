@@ -8,4 +8,10 @@ final class LoginFailure extends LoginState { String error;
 
 LoginFailure(this.error);
 }
-final class LoginSuccessful extends LoginState {}
+final class LoginSuccessful extends LoginState {
+   bool? isEmail ;
+  dynamic result;
+  ProfileModel? profileModel ;
+  LoginSuccessful({this.result, this.isEmail, this.profileModel});
+}
+

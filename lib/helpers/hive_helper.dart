@@ -1,12 +1,16 @@
 import 'package:hive/hive.dart';
 
-class HiveHelper{
+class HiveHelper {
   static String boxKey = "BoxKey";
   static String idKey = "idKey";
-
+  static String? checkKey = HiveHelper.getId();
 
   static setId(String token) async {
     await Hive.box(boxKey).put(idKey, token);
+  }
+
+  static removeId() async {
+    await Hive.box(boxKey).delete(idKey);
   }
 
   static bool isLoggedIn() {
@@ -17,7 +21,7 @@ class HiveHelper{
   }
 
   static String? getId() {
-    if(Hive.box(boxKey).containsKey(idKey)){
+    if (Hive.box(boxKey).containsKey(idKey)) {
       return Hive.box(boxKey).get(idKey);
     }
     return null;

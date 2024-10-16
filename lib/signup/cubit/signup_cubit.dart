@@ -8,6 +8,8 @@ class SignupCubit extends Cubit<SignupState> {
   SignupCubit() : super(SignupInitial());
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
+  String selectedGender = 'Male';
+  String? selectedAge;
 
   void signUpWithEmailPassword(String email, String password, String name, String phoneNum) async {
     try {
@@ -23,6 +25,8 @@ class SignupCubit extends Cubit<SignupState> {
         try {
           // Adding user details to Firestore
           await _firestore.collection('users').doc(value.user?.uid).set({
+            'gender':selectedGender,
+            'age':selectedAge,
             'name': name,
             'phone_number': phoneNum,
             'email': email,

@@ -1,6 +1,11 @@
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quicklab/helpers/hive_helper.dart';
+import '../login/login_page.dart';
+import 'cubit/profile_cubit.dart';
 import 'edit_profile_page.dart';
 
 class PatientProfilePage extends StatelessWidget {
@@ -16,12 +21,29 @@ class PatientProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              buildProfileHeader(),
-              SizedBox(height: 24.h),
-              buildPersonalInfoCard(),
+              BlocBuilder<ProfileCubit, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileSuccessful) {
+                    return Column(
+                      children: [
+                        buildProfileHeader(state.userData.name,
+                            state.userData.phone_number, context),
+                        SizedBox(height: 24.h),
+                        buildPersonalInfoCard(
+                            state.userData.age, state.userData.gender),
+                      ],
+                    );
+                  } else if (state is ProfileFailure) {
+                    return Center(child: Text(state.error));
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
               SizedBox(height: 16.h),
               buildMedicalHistorySection(),
-              buildUpdateContactButton(),
+              SizedBox(height: 16.h),
+              buildUpdateContactButton(context),
             ],
           ),
         ),
@@ -39,23 +61,22 @@ class PatientProfilePage extends StatelessWidget {
         'Patient Profile',
         style: TextStyle(
           fontSize: 24.sp,
-          color: Colors.white,
+          color: Colors.black,
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: const Color(0xFF6C5DD3),
+      backgroundColor: Colors.transparent,
       actions: [
         IconButton(
           icon: Icon(
             Icons.edit,
             size: 24.sp,
-            color: Colors.white,
+            color: Colors.black,
           ),
           onPressed: () {
-            // Navigate to Edit Profile Page
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditProfilePage()),
+              MaterialPageRoute(builder: (context) => const EditProfilePage()),
             );
           },
         )
@@ -63,21 +84,28 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildProfileHeader() {
+  Widget buildProfileHeader(String? name, String? phone, BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 50.r,
-          backgroundColor: Colors.purpleAccent,
-          child: Icon(
-            Icons.person,
-            size: 50.r,
-            color: Colors.white,
-          ),
-        ),
+        context.read<ProfileCubit>().image == null
+            ? CircleAvatar(
+                radius: 50.r,
+                backgroundColor: const Color(0xFF6C5DD3),
+                child: Icon(
+                  Icons.person,
+                  size: 50.r,
+                  color: Colors.white,
+                ),
+              )
+            : CircleAvatar(
+                radius: 50.r,
+                backgroundColor: const Color(0xFF6C5DD3),
+                backgroundImage:
+                    FileImage(File(context.read<ProfileCubit>().image!)),
+              ),
         SizedBox(height: 16.h),
         Text(
-          'John Doe',
+          name ?? "",
           style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
@@ -85,7 +113,7 @@ class PatientProfilePage extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          'Phone: +1234567890\nEmail: john.doe@example.com',
+          'Phone: $phone',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16.sp, color: Colors.grey),
         ),
@@ -93,7 +121,7 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildPersonalInfoCard() {
+  Widget buildPersonalInfoCard(String? age, String? gender) {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
@@ -105,17 +133,14 @@ class PatientProfilePage extends StatelessWidget {
           children: [
             Text(
               'Personal Information',
-
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF6A1B9A)),
-
             ),
             SizedBox(height: 16.h),
-            buildInfoRow('Age', '30'),
-            buildInfoRow('Gender', 'Male'),
-            buildInfoRow('Address', '123 Main Street, City, Country'),
+            buildInfoRow('Age', age ?? ""),
+            buildInfoRow('Gender', gender ?? ""),
           ],
         ),
       ),
@@ -138,7 +163,6 @@ class PatientProfilePage extends StatelessWidget {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF0277BD)),
-
             ),
             SizedBox(height: 16.h),
             buildMedicalHistoryItem('Blood Test - 12/08/2024'),
@@ -150,24 +174,24 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildUpdateContactButton() {
+  Widget buildUpdateContactButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          // Action for updating contact information
+          HiveHelper.removeId();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
         },
-
-        child: Text('Update Contact Info',
-            style: TextStyle(fontSize: 16.sp, color: Colors.white)),
-
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF6C5DD3),
+          backgroundColor: const Color(0xFF6C5DD3),
           padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.r),
           ),
         ),
+        child: Text('Sign Out',
+            style: TextStyle(fontSize: 16.sp, color: Colors.white)),
       ),
     );
   }
@@ -185,7 +209,6 @@ class PatientProfilePage extends StatelessWidget {
                   color: Color(0xFF6A1B9A))),
           Text(value,
               style: TextStyle(fontSize: 16.sp, color: Colors.grey[600])),
-
         ],
       ),
     );
@@ -207,4 +230,3 @@ class PatientProfilePage extends StatelessWidget {
     );
   }
 }
-

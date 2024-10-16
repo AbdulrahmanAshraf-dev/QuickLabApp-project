@@ -1,20 +1,50 @@
-import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quicklab/helpers/hive_helper.dart';
+import 'package:quicklab/user_profile/profile_model.dart';
 
-class ProfileCubit extends Cubit<Map<String, dynamic>> {
-  ProfileCubit()
-      : super({
-    'name': 'John Doe',
-    'phone': '+1234567890',
-    'email': 'john.doe@example.com',
-    'address': '123 Main Street, City, Country',
-  });
+part 'profile_state.dart';
 
-  void updateProfile(String name, String phone, String email, String address) {
-    emit({
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'address': address,
-    });
+class ProfileCubit extends Cubit<ProfileState> {
+  ProfileCubit() : super(ProfileInitial());
+
+  TextEditingController nameEditingController = TextEditingController();
+  TextEditingController? emailEditingController = TextEditingController();
+  TextEditingController phoneEditingController = TextEditingController();
+  String? gender='Male';
+  String? age;
+  String? image;
+
+  Future<void> fetchUserProfile() async {
+    emit(ProfileLoading());
+    try {
+      if (HiveHelper.getId() == null) {
+        emit(ProfileFailure('No user is currently signed in.'));
+        return;
+      }
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(HiveHelper.getId())
+          .get();
+      nameEditingController.text = userDoc.get("name");
+      emailEditingController?.text = userDoc.get("email") ?? "";
+      phoneEditingController.text = userDoc.get("phone_number");
+      gender = userDoc.get("gender");
+      age = userDoc.get("age");
+      image=userDoc.get("image");
+      if (userDoc.exists) {
+        emit(ProfileSuccessful(
+            ProfileModel.fromJson(userDoc.data() as Map<String, dynamic>)));
+      } else {
+        emit(ProfileFailure('User data not found.'));
+      }
+    } catch (e) {
+      emit(ProfileFailure('Failed to fetch user profile: $e'));
+    }
   }
+
+
+
+
 }

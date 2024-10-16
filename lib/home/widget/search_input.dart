@@ -9,7 +9,7 @@ class SearchInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 25, left: 25, right: 25),
+      margin: const EdgeInsets.only(top: 16, left: 25, right: 25),
       child: Column(
         children: [
           Row(

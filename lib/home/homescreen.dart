@@ -1,8 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bookmark/bookmark_screen.dart';
 import '../recent_page/recent_screen.dart';
+import '../user_profile/cubit/profile_cubit.dart';
 import '../user_profile/profile.dart';
 import 'home.dart';
 
@@ -30,6 +32,11 @@ class _HomescreenState extends State<Homescreen> {
     const Icon(Icons.person)
   ];
 
+  @override
+  void initState() {
+    context.read<ProfileCubit>().fetchUserProfile();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

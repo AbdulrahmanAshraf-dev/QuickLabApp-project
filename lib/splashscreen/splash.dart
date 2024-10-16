@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quicklab/helpers/hive_helper.dart';
 import 'package:quicklab/home/homescreen.dart';
 import 'package:quicklab/signup/signup_page.dart';
+
+import '../user_profile/cubit/profile_cubit.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState()
   {
+    context.read<ProfileCubit>().fetchUserProfile();
     Future.delayed(const Duration(seconds: 4),(){
       Navigator.pushReplacement(
           context,

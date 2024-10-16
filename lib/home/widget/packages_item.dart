@@ -29,7 +29,8 @@ class _PackagesItemState extends State<PackagesItem> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => DetailPage(widget.items)));
+            MaterialPageRoute(
+                builder: (context) => DetailPage(widget.items)));
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),

@@ -7,7 +7,6 @@ import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
 import 'package:quicklab/home/cubit/scans/scans_cubit.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/homescreen.dart';
-import 'package:quicklab/home/models/products_data.dart';
 import 'package:quicklab/login/login_cubit/login_cubit.dart';
 import 'package:quicklab/signup/cubit/signup_cubit.dart';
 import 'package:quicklab/signup/signup_page.dart';
@@ -20,7 +19,6 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(HiveHelper.boxKey);
-  await ProductsData.setBookmarkedProducts();
   runApp(const MyApp());
 }
 

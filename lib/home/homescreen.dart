@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:quicklab/home/models/products_data.dart';
 
 import '../bookmark/bookmark_screen.dart';
 import '../recent_page/recent_screen.dart';
@@ -29,6 +30,12 @@ class _HomescreenState extends State<Homescreen> {
     const Icon(Icons.bookmark),
     const Icon(Icons.person)
   ];
+  @override
+  void initState() {
+    super.initState();
+     ProductsData.setBookmarkedProducts();
+
+  }
 
   @override
   Widget build(BuildContext context) {

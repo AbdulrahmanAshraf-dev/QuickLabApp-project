@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quicklab/chat/chat_screen.dart';
 
 import '../bookmark/bookmark_screen.dart';
 import '../recent_page/recent_screen.dart';
@@ -22,6 +23,7 @@ class _HomescreenState extends State<Homescreen> {
     const HomePage(),
     const RecentScreen(),
     const BookmarkScreen(),
+    const ChatScreen(),
     const PatientProfilePage()
   ];
 
@@ -29,6 +31,7 @@ class _HomescreenState extends State<Homescreen> {
     const Icon(Icons.home),
     const Icon(Icons.library_books_rounded),
     const Icon(Icons.bookmark),
+    const Icon(Icons.chat),
     const Icon(Icons.person)
   ];
 

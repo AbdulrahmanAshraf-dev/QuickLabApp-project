@@ -22,7 +22,6 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(HiveHelper.boxKey);
-  // await ProductsData.setBookmarkedProducts();
   runApp(const MyApp());
 }
 

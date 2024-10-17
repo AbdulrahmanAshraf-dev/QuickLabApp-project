@@ -7,9 +7,9 @@ import '../../detail/detail.dart';
 
 class PackagesItem extends StatefulWidget {
   final ProductsData items;
-  final bool inBookmark;
+  late bool inBookmark;
 
-  const PackagesItem(this.items, {super.key, required this.inBookmark});
+   PackagesItem(this.items, {super.key, required this.inBookmark});
 
   @override
   State<PackagesItem> createState() => _PackagesItemState();
@@ -30,7 +30,7 @@ class _PackagesItemState extends State<PackagesItem> {
       onTap: () {
         Navigator.of(context).push(
             MaterialPageRoute(
-                builder: (context) => DetailPage(widget.items)));
+                builder: (context) => DetailPage(items:widget.items)));
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
@@ -68,6 +68,8 @@ class _PackagesItemState extends State<PackagesItem> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
+                        widget.inBookmark = !widget.inBookmark;
+                        widget.items.isBookmarked = widget.inBookmark;
                         if (icon == Icons.favorite_border) {
                           icon = Icons.favorite;
                           context.read<GetBookmarkCubit>().addBookmark(

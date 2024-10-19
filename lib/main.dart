@@ -13,6 +13,9 @@ import 'package:quicklab/signup/cubit/signup_cubit.dart';
 import 'package:quicklab/signup/signup_page.dart';
 import 'package:quicklab/splashscreen/splash.dart';
 import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
+import 'package:quicklab/user_profile/edit_profile_page.dart';
+import 'package:quicklab/user_profile/profile.dart';
+import 'package:quicklab/usersadmin/users.dart';
 import 'helpers/hive_helper.dart';
 import 'login/login_page.dart';
 import 'login/sub_login.dart';
@@ -68,6 +71,9 @@ class MyApp extends StatelessWidget {
               '/splash': (context) => const SplashScreen(),
               '/home': (context) => const Homescreen(),
               '/subLogin': (context) => const SubLoginScreen(),
+              '/user' : (context) => UserManagementApp(),
+              '/patientProfile' : (context) => const PatientProfilePage(),
+              '/editProfile' : (context) => const EditProfilePage(),
             },
           ),
         );

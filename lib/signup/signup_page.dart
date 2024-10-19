@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Column(
       children: [
         Image.asset(
-          'assets/images/logo.jpg', // Ensure this path is correct
+          'assets/images/logo2.jpg', // Ensure this path is correct
           height: 100.h,
         ),
         Text(
@@ -245,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             }
           : null, // Disable if checkbox is not checked
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF6C5DD3),
+        backgroundColor: Colors.cyan,
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
@@ -273,9 +273,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           },
           child: Text('Login',
               style:
-                  TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0))),
+                  TextStyle(fontSize: 14.sp, color: Colors.cyan),
         ),
-      ],
+    ),
+  ],
     );
   }
 }

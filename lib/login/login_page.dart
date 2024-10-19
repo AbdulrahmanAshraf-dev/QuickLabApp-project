@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/logo.jpg',
+            'assets/images/logo2.jpg',
             height: 100.h,
           ),
           Text(
@@ -167,7 +167,7 @@ class LoginScreen extends StatelessWidget {
         child: Text(
           'Forgot Password?',
           style: TextStyle(
-            color: Colors.purple,
+            color: Colors.cyan,
             fontSize: 14.sp,
           ),
         ),
@@ -182,7 +182,7 @@ class LoginScreen extends StatelessWidget {
             context.read<ProfileCubit>().fetchUserProfile();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6C5DD3),
+          backgroundColor: Colors.cyan,
           padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
@@ -248,7 +248,7 @@ class LoginScreen extends StatelessWidget {
           },
           child: Text(
             'Create New Account',
-            style: TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0)),
+            style: TextStyle(fontSize: 14.sp, color: Colors.cyan),
           ),
         ),
       ],

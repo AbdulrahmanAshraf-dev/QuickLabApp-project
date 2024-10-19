@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Expanded(
               child: Center(
-                child: Image.asset('assets/images/logo.jpg',height: 291,width: 291,),
+                child: Image.asset('assets/images/logo2.jpg',height: 291,width: 291,),
         ),
             ),
             const Column(
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   "Qucik Lab",
                   style: TextStyle(
                     fontSize: 25,
-                    fontWeight: FontWeight.normal,height: -20
+                    fontWeight: FontWeight.normal,height: -26
                   ),
                 ),
               ],

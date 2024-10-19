@@ -10,7 +10,7 @@ LoginFailure(this.error);
 }
 final class LoginSuccessful extends LoginState {
    bool? isEmail ;
-  dynamic result;
+   String? result;
   ProfileModel? profileModel ;
   LoginSuccessful({this.result, this.isEmail, this.profileModel});
 }

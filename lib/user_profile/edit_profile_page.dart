@@ -37,7 +37,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       SizedBox(height: 24.h),
                       _buildProfileForm(
                           state.userData.name,
-                          state.userData.phone_number,
+                          state.userData.phoneNumber,
                           state.userData.email,
                           context),
                       SizedBox(height: 16.h),
@@ -182,7 +182,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ProfileModel(
                 image: context.read<ProfileCubit>().image,
                 name: context.read<ProfileCubit>().nameEditingController.text,
-                phone_number:
+                phoneNumber:
                     context.read<ProfileCubit>().phoneEditingController.text,
               ),
               context);

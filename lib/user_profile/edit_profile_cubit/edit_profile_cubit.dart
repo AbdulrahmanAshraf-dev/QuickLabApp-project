@@ -31,7 +31,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
                   check: true,
                   name: profile.name,
                   email: profile.email,
-                  phone_number: profile.phone_number)
+                  phoneNumber: profile.phoneNumber)
               .toJson());
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')

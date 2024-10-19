@@ -12,26 +12,25 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) async{
+        listener: (context, state) async {
           if (state is LoginSuccessful) {
-            if (state.isEmail==true) {
+            if (state.isEmail == true) {
+              bool isAdmin= await context.read<LoginCubit>().isAdmin(state.result!);
+              isAdmin ? Navigator.pushNamed(context, '/users') :
               Navigator.pushNamed(context, '/home');
-            }
-            else {
+            } else {
               bool check = await context.read<LoginCubit>().fetchUserProfile();
-                if (check==false) {
-                  if (context.mounted) {
-                    Navigator.pushNamed(context, '/subLogin');
-                  }
+              if (check == false) {
+                if (context.mounted) {
+                  Navigator.pushNamed(context, '/subLogin');
                 }
-                else{
-                  if (context.mounted) {
-                    Navigator.pushNamed(context, '/home');
-                  }
+              } else {
+                if (context.mounted) {
+                  Navigator.pushNamed(context, '/home');
                 }
+              }
             }
-          }
-          else if (state is LoginFailure) {
+          } else if (state is LoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   backgroundColor: Colors.black,
@@ -178,8 +177,8 @@ class LoginScreen extends StatelessWidget {
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-            context.read<LoginCubit>().login();
-            context.read<ProfileCubit>().fetchUserProfile();
+          context.read<LoginCubit>().login();
+          context.read<ProfileCubit>().fetchUserProfile();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.cyan,
@@ -189,20 +188,22 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
         child: BlocBuilder<LoginCubit, LoginState>(
-  builder: (context, state) {
-    if(state is LoginLoading){
-      return const CircularProgressIndicator(color: Colors.white,);
-    }
-    return Text(
-          'Log In',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-  },
-));
+          builder: (context, state) {
+            if (state is LoginLoading) {
+              return const CircularProgressIndicator(
+                color: Colors.white,
+              );
+            }
+            return Text(
+              'Log In',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
+        ));
   }
 
   Widget _buildOrLoginWith() {

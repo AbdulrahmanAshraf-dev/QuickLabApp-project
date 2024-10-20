@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; // Make sure to import flutter_bloc
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
 import 'package:quicklab/home/models/products_data.dart';
 import '../../detail/detail.dart';
@@ -72,7 +71,7 @@ class _PackagesItemState extends State<PackagesItem> {
                         widget.items.isBookmarked = widget.inBookmark;
                         if (icon == Icons.favorite_border) {
                           icon = Icons.favorite;
-                          context.read<GetBookmarkCubit>().addBookmark(
+                          GetBookmarkCubit().addBookmark(
                             widget.items.id!,
                             widget.items.isTest!,
                             widget.inBookmark,
@@ -80,7 +79,7 @@ class _PackagesItemState extends State<PackagesItem> {
                           );
                         } else {
                           icon = Icons.favorite_border;
-                          context.read<GetBookmarkCubit>().removeBookmark(
+                          GetBookmarkCubit().removeBookmark(
                             widget.items.id!,
                             widget.items.isTest!,
                             widget.inBookmark,

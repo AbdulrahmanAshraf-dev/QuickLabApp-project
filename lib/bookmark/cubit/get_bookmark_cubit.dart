@@ -42,7 +42,7 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
       await docRef.update({
         "bookmarked": FieldValue.arrayUnion([targetDocRef])
       });
-      if(inBookmark){
+      if(!inBookmark){
         context.read<ScansCubit>().getScans();
         context.read<TestsCubit>().getTests();
       }
@@ -65,7 +65,7 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
       await docRef.update({
         'bookmarked': FieldValue.arrayRemove([targetDocRef])
       });
-      if(inBookmark){
+      if(!inBookmark){
         context.read<ScansCubit>().getScans();
         context.read<TestsCubit>().getTests();
       }

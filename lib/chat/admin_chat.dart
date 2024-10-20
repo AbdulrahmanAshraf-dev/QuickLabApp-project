@@ -6,11 +6,10 @@ import 'package:quicklab/chat/chat_bubble.dart';
 import 'package:quicklab/chat/chat_service.dart';
 
 class AdminChat extends StatefulWidget {
-  const AdminChat({super.key, required this.id, this.name, required this.onMessageReceived});
+  const AdminChat({super.key, required this.id, this.name});
 
   final String id;
   final String? name;
-  final VoidCallback onMessageReceived; // دالة لإعلام الصفحة بأن رسالة جديدة وصلت
 
   @override
   State<AdminChat> createState() => _AdminChatState();
@@ -21,19 +20,6 @@ class _AdminChatState extends State<AdminChat> {
   final ChatService _chatService = ChatService();
   final ScrollController _scrollController = ScrollController();
 
-  @override
-  void initState() {
-    super.initState();
-    // الاستماع للرسائل الجديدة
-    _chatService.getMessage("Iel99WLRjIQ9PIqHTdtM", widget.id).listen((snapshot) {
-      if (snapshot.docs.isNotEmpty) {
-        var lastMessage = snapshot.docs.last.data() as Map<String, dynamic>;
-        if (lastMessage['senderId'] != "Iel99WLRjIQ9PIqHTdtM") {
-          widget.onMessageReceived(); // إعلام أن رسالة جديدة وصلت
-        }
-      }
-    });
-  }
 
   void sendMessage() async {
     if (messageController.text.isNotEmpty) {

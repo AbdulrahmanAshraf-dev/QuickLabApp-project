@@ -17,7 +17,7 @@ class HiveHelper {
       }
       return Hive.box(boxKey).get(isAdminKey);
     }
-    return null;
+    return false;
   }
   static void removeIsAdmin() async {
     await Hive.box(boxKey).delete(isAdminKey);

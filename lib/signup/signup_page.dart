@@ -99,6 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: ListTile(
           title: const Text('Male'),
           leading: Radio<String>(
+            activeColor: Colors.cyan,
             value: 'Male',
             groupValue: context.read<SignupCubit>().selectedGender,
             onChanged: (String? value) {
@@ -113,6 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: ListTile(
           title: const Text('Female'),
           leading: Radio<String>(
+            activeColor: Colors.cyan,
             value: 'Female',
             groupValue: context.read<SignupCubit>().selectedGender,
             onChanged: (String? value) {

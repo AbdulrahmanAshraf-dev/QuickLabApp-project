@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quicklab/users_in_admin/cubit/users_in_admin_cubit.dart';
 import 'package:quicklab/users_in_admin/users_in_admin_screen.dart';
 
+import '../chat/admin.dart';
 import '../products_in_admin/cubit/products_in_admin_cubit.dart';
 import '../products_in_admin/products_in_admin_screen.dart';
 
@@ -20,11 +21,13 @@ class _AdminScreenState extends State<AdminScreen> {
   final _pages = [
     const UsersInAdminScreen(),
     const ProductsInAdminScreen(),
+    const AdminChatRoomsScreen(),
   ];
 
   final List<Widget> _navigationItem = [
     const Icon(Icons.person),
     const Icon(Icons.library_books),
+    const Icon(Icons.chat),
   ];
 
   @override

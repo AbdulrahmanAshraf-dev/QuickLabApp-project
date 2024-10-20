@@ -107,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
         if (snapshot.hasError) {
           return const Text("Error");
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _scrollToBottom();

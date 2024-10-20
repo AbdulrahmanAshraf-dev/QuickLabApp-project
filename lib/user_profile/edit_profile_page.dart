@@ -145,6 +145,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: ListTile(
           title: const Text('Male'),
           leading: Radio<String>(
+            activeColor: Colors.cyan,
             value: 'Male',
             groupValue: context.read<ProfileCubit>().gender,
             onChanged: (String? value) {
@@ -159,6 +160,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: ListTile(
           title: const Text('Female'),
           leading: Radio<String>(
+            activeColor: Colors.cyan,
             value: 'Female',
             groupValue: context.read<ProfileCubit>().gender,
             onChanged: (String? value) {
@@ -188,7 +190,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               context);
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6C5DD3),
+          backgroundColor: Colors.cyan,
           padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.r),
@@ -208,7 +210,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: const Color(0xFF6C5DD3)),
+        prefixIcon: Icon(icon, color:Colors.cyan),
         labelText: label,
         labelStyle: TextStyle(fontSize: 16.sp),
         hintText: hint,

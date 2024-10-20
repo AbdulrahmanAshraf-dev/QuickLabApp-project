@@ -31,6 +31,7 @@ class SignupCubit extends Cubit<SignupState> {
         'phone_number': phoneNum,
         'email': email,
         'isAdmin': false,
+        'image':null
       });
 
       HiveHelper.setId(userCredential.user!.uid);

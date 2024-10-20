@@ -185,7 +185,7 @@ class PatientProfilePage extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const LoginScreen()));
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6C5DD3),
+          backgroundColor: Colors.cyan,
           padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.r),

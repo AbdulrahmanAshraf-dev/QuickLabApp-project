@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/chat/chat_service.dart';
 import 'admin_chat.dart';
 
@@ -11,13 +12,17 @@ class AdminChatRoomsScreen extends StatefulWidget {
 }
 
 class _AdminChatRoomsScreenState extends State<AdminChatRoomsScreen> {
-  Map<String, bool> unreadMessages = {}; // خريطة لتتبع الرسائل غير المقروءة
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chat Rooms"),
+        title: Text(
+          "Chat Rooms",
+          style: TextStyle(
+              fontSize: 24.sp,
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.cyan,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -28,7 +33,13 @@ class _AdminChatRoomsScreenState extends State<AdminChatRoomsScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: SizedBox(
+              height: 100,
+              child: CircularProgressIndicator(
+                color: Colors.cyan,
+              ),
+            ));
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -44,32 +55,31 @@ class _AdminChatRoomsScreenState extends State<AdminChatRoomsScreen> {
               var name = chatRoom.get("name");
               var id = chatRoom.id;
 
-              return ListTile(
-                title: Text('$name'),
-                subtitle: const Text('Tap to view conversation'),
-                trailing: unreadMessages[id] == true
-                    ? const Icon(Icons.circle, color: Colors.green, size: 12) // علامة للرسائل غير المقروءة
-                    : null,
-                onTap: () {
-                  setState(() {
-                    unreadMessages[id] = false; // تعيينها كـ مقروء عند فتح المحادثة
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AdminChat(
-                        name: name,
-                        id: id,
-                        onMessageReceived: () {
-                          setState(() {
-                            unreadMessages[id] = true; // تعيينها كـ غير مقروء عند استلام رسالة جديدة
-                          });
-                        },
-                      ),
+              return Card(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      '$name',
+                      style: TextStyle(fontSize: 24.sp, color: Colors.black),
                     ),
-                  );
-                },
-              );
+                    subtitle: const Text('Tap to view conversation'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AdminChat(
+                            name: name,
+                            id: id,
+                          ),
+                        ),
+                      );
+                    },
+                  ));
             },
           );
         },
@@ -77,4 +87,3 @@ class _AdminChatRoomsScreenState extends State<AdminChatRoomsScreen> {
     );
   }
 }
-

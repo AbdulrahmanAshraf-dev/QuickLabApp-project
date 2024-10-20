@@ -68,7 +68,7 @@ class _PackagesItemState extends State<PackagesItem> {
                     onTap: () {
                       setState(() {
                         widget.inBookmark = !widget.inBookmark;
-                        widget.items.isBookmarked = widget.inBookmark;
+                        widget.items.isBookmarked = !widget.items.isBookmarked!;
                         if (icon == Icons.favorite_border) {
                           icon = Icons.favorite;
                           GetBookmarkCubit().addBookmark(

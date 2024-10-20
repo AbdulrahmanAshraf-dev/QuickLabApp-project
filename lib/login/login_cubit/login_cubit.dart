@@ -20,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
         emailController.text, passwordController.text);
     response.fold((error) => (emit(LoginFailure(error))), (user) {
       HiveHelper.setId(user?.user!.uid ?? "");
-      emit(LoginSuccessful(result: user, isEmail: true));
+      emit(LoginSuccessful(result: user?.user!.uid ?? "", isEmail: true));
     });
   }
 
@@ -41,6 +41,21 @@ class LoginCubit extends Cubit<LoginState> {
       HiveHelper.setId(user.user!.uid);
     });
   }
+
+   Future<bool> isAdmin(String id)async{
+     print("xxxxxxxxxxxxxxxxxxxx\n");
+
+     DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .get();
+    bool? isAdmin = userDoc.get("isAdmin");
+    print("=======================\n");
+    print(isAdmin);
+    HiveHelper.setIsAdmin(isAdmin!);
+
+    return isAdmin;
+}
 
   Future<bool> fetchUserProfile() async {
     try {

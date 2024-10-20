@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; // Make sure to import flutter_bloc
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
 import 'package:quicklab/home/models/products_data.dart';
 import '../../detail/detail.dart';
 
 class PackagesItem extends StatefulWidget {
   final ProductsData items;
-  final bool inBookmark;
+  late bool inBookmark;
 
-  const PackagesItem(this.items, {super.key, required this.inBookmark});
+   PackagesItem(this.items, {super.key, required this.inBookmark});
 
   @override
   State<PackagesItem> createState() => _PackagesItemState();
@@ -29,7 +28,8 @@ class _PackagesItemState extends State<PackagesItem> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => DetailPage(widget.items)));
+            MaterialPageRoute(
+                builder: (context) => DetailPage(items:widget.items)));
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
@@ -67,9 +67,11 @@ class _PackagesItemState extends State<PackagesItem> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
+                        widget.inBookmark = !widget.inBookmark;
+                        widget.items.isBookmarked = !widget.items.isBookmarked!;
                         if (icon == Icons.favorite_border) {
                           icon = Icons.favorite;
-                          context.read<GetBookmarkCubit>().addBookmark(
+                          GetBookmarkCubit().addBookmark(
                             widget.items.id!,
                             widget.items.isTest!,
                             widget.inBookmark,
@@ -77,7 +79,7 @@ class _PackagesItemState extends State<PackagesItem> {
                           );
                         } else {
                           icon = Icons.favorite_border;
-                          context.read<GetBookmarkCubit>().removeBookmark(
+                          GetBookmarkCubit().removeBookmark(
                             widget.items.id!,
                             widget.items.isTest!,
                             widget.inBookmark,

@@ -8,7 +8,7 @@ class ProductsData {
   final String? description;
   final String? id;
   final bool? isTest;
-  final bool? isBookmarked;
+  bool? isBookmarked;
   static Set bookmarkedProducts={} ;
   ProductsData( {this.isTest,this.id, this.description,  this.name,  this.image,  this.price,this.isBookmarked});
 

@@ -18,6 +18,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> fetchUserProfile() async {
     emit(ProfileLoading());
+    String? id=HiveHelper.getId();
     try {
       if (HiveHelper.getId() == null) {
         emit(ProfileFailure('No user is currently signed in.'));
@@ -25,7 +26,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
-          .doc(HiveHelper.getId())
+          .doc(id)
           .get();
       nameEditingController.text = userDoc.get("name");
       emailEditingController?.text = userDoc.get("email") ?? "";
@@ -35,7 +36,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       image=userDoc.get("image");
       if (userDoc.exists) {
         emit(ProfileSuccessful(
-            ProfileModel.fromJson(userDoc.data() as Map<String, dynamic>)));
+            ProfileModel.fromJson(userDoc.data() as Map<String, dynamic>, id)));
       } else {
         emit(ProfileFailure('User data not found.'));
       }

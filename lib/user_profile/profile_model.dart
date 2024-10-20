@@ -1,48 +1,48 @@
-
-
 class ProfileModel {
   String? name;
-
   String? email;
-
-  String? phone_number;
-
+  String? phoneNumber;
   String? gender;
-
   String? age;
-
   bool? check;
-
+  bool? isAdmin;
   String? image;
+  String?id;
 
   ProfileModel(
       {this.name,
       this.image,
       this.email,
-      this.phone_number,
+      this.phoneNumber,
       this.age,
       this.gender,
-      this.check = false});
+      this.isAdmin = false,
+      this.check = false,
+      this.id,});
 
-  ProfileModel.fromJson(Map<String, dynamic> json) {
+  ProfileModel.fromJson(Map<String, dynamic> json, String? id) {
     name = json["name"];
     image = json["image"];
     email = json["email"];
-    phone_number = json["phone_number"];
+    phoneNumber = json["phone_number"];
     gender = json["gender"];
     age = json["age"];
     check = json["check"];
+    isAdmin = json["isAdmin"];
+    id = id;
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map["name"] = name;
     map["email"] = email;
-    map["phone_number"] = phone_number;
+    map["phone_number"] = phoneNumber;
     map["gender"] = gender;
     map["age"] = age;
+    map["isAdmin"] = isAdmin;
     map["check"] = check;
     map["image"] = image;
+    map["isAdmin"] = false;
     return map;
   }
 }

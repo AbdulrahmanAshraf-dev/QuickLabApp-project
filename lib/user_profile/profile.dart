@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/helpers/hive_helper.dart';
+
 import '../login/login_page.dart';
 import 'cubit/profile_cubit.dart';
 import 'edit_profile_page.dart';
@@ -27,7 +28,7 @@ class PatientProfilePage extends StatelessWidget {
                     return Column(
                       children: [
                         buildProfileHeader(state.userData.name,
-                            state.userData.phone_number, context),
+                            state.userData.phoneNumber, context),
                         SizedBox(height: 24.h),
                         buildPersonalInfoCard(
                             state.userData.age, state.userData.gender),
@@ -109,7 +110,7 @@ class PatientProfilePage extends StatelessWidget {
           style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF4A4A58)),
+              color: const Color(0xFF4A4A58)),
         ),
         SizedBox(height: 8.h),
         Text(
@@ -125,7 +126,7 @@ class PatientProfilePage extends StatelessWidget {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      color: Color(0xFFF3E5F5),
+      color: const Color(0xFFF3E5F5),
       child: Padding(
         padding: EdgeInsets.all(16.w),
         child: Column(
@@ -136,7 +137,7 @@ class PatientProfilePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF6A1B9A)),
+                  color: const Color(0xFF6A1B9A)),
             ),
             SizedBox(height: 16.h),
             buildInfoRow('Age', age ?? ""),
@@ -151,7 +152,7 @@ class PatientProfilePage extends StatelessWidget {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      color: Color(0xFFE1F5FE),
+      color: const Color(0xFFE1F5FE),
       child: Padding(
         padding: EdgeInsets.all(16.w),
         child: Column(
@@ -162,7 +163,7 @@ class PatientProfilePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF0277BD)),
+                  color: const Color(0xFF0277BD)),
             ),
             SizedBox(height: 16.h),
             buildMedicalHistoryItem('Blood Test - 12/08/2024'),
@@ -180,8 +181,8 @@ class PatientProfilePage extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           HiveHelper.removeId();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6C5DD3),
@@ -206,7 +207,7 @@ class PatientProfilePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF6A1B9A))),
+                  color: const Color(0xFF6A1B9A))),
           Text(value,
               style: TextStyle(fontSize: 16.sp, color: Colors.grey[600])),
         ],
@@ -219,7 +220,7 @@ class PatientProfilePage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         children: [
-          Icon(Icons.history, color: Color(0xFF0277BD), size: 24.r),
+          Icon(Icons.history, color: const Color(0xFF0277BD), size: 24.r),
           SizedBox(width: 16.w),
           Text(
             title,

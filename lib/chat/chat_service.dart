@@ -10,6 +10,7 @@ class ChatService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> sendMessage(String receiverId, var message,String senderId) async {
+
     final String currentUserEmail = _auth.currentUser!.email!;
     final Timestamp timestamp = Timestamp.now();
 
@@ -21,7 +22,9 @@ class ChatService {
       timestamp: timestamp,
     );
 
+
     List<String> ids = [senderId, receiverId];
+
     ids.sort();
     String chatRoomId = ids.join('_');
     await fireStore
@@ -30,6 +33,7 @@ class ChatService {
         .collection("message")
         .doc()
         .set(chatModel.toMap());
+
   }
 
   Future<String> uploadImage(File image) async {
@@ -53,7 +57,6 @@ class ChatService {
         .snapshots();
   }
 
-
   Stream<QuerySnapshot> getChat(String id) {
     List<String> ids = ["Iel99WLRjIQ9PIqHTdtM",id ];
     ids.sort();
@@ -69,4 +72,5 @@ class ChatService {
     return fireStore
         .collection("users").snapshots();
   }
+
 }

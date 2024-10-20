@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:quicklab/signup/cubit/signup_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,9 +14,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   bool _isChecked = false;
   PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return BlocListener<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupSuccessState) {
-          // Navigate to another screen or show success message
+          Navigator.popAndPushNamed(context, '/home');
         } else if (state is SignupErrorState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.msg)));
@@ -73,12 +73,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
   DropdownButton<String> _buildSelectedAge(BuildContext context) {
     return DropdownButton<String>(
       hint: const Text('Select Age'),
-      value: context
-          .read<SignupCubit>()
-          .selectedAge,
+      value: context.read<SignupCubit>().selectedAge,
       items: List.generate(100, (index) => (index + 1).toString())
           .map((String value) {
         return DropdownMenuItem<String>(
@@ -88,13 +87,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }).toList(),
       onChanged: (String? newValue) {
         setState(() {
-          context
-              .read<SignupCubit>()
-              .selectedAge = newValue!;
+          context.read<SignupCubit>().selectedAge = newValue!;
         });
       },
     );
   }
+
   Row _buildMaleOrFemale() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       Expanded(
@@ -132,7 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Column(
       children: [
         Image.asset(
-          'assets/images/logo.jpg', // Ensure this path is correct
+          'assets/images/logo2.jpg', // Ensure this path is correct
           height: 100.h,
         ),
         Text(
@@ -245,20 +243,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
             }
           : null, // Disable if checkbox is not checked
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF6C5DD3),
+        backgroundColor: Colors.cyan,
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
         ),
       ),
-      child: Text(
+      child: BlocBuilder<SignupCubit, SignupState>(
+  builder: (context, state) {
+    if (state is SignupLoadingState) {
+            return const CircularProgressIndicator();
+          } else {
+      return Text(
         'Sign Up',
         style: TextStyle(
           color: Colors.white,
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
-      ),
+      );
+    }
+  },
+),
     );
   }
 
@@ -271,9 +277,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           onPressed: () {
             Navigator.pushNamed(context, '/login'); // Navigate to Login Page
           },
-          child: Text('Login',
-              style:
-                  TextStyle(fontSize: 14.sp, color: const Color(0xFF9B51E0))),
+          child: Text(
+            'Login',
+            style: TextStyle(fontSize: 14.sp, color: Colors.cyan),
+          ),
         ),
       ],
     );

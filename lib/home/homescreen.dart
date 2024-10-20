@@ -8,6 +8,7 @@ import '../recent_page/recent_screen.dart';
 import '../user_profile/cubit/profile_cubit.dart';
 import '../user_profile/profile.dart';
 import 'home.dart';
+import 'models/products_data.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -38,6 +39,7 @@ class _HomescreenState extends State<Homescreen> {
   @override
   void initState() {
     context.read<ProfileCubit>().fetchUserProfile();
+     ProductsData.setBookmarkedProducts();
     super.initState();
   }
   @override

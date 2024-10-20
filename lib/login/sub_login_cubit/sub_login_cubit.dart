@@ -26,7 +26,7 @@ class SubLoginCubit extends Cubit<SubLoginState> {
           .set(ProfileModel(
                   check: true,
                   name: nameEditingController.text,
-                  phone_number: phoneEditingController.text,
+                  phoneNumber: phoneEditingController.text,
                   age: selectedAge,
                   gender: selectedGender)
               .toJson());

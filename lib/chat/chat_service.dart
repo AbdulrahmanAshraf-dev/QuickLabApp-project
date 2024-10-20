@@ -9,27 +9,27 @@ class ChatService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<void> sendMessage(String receiverId, var message) async {
-    final String currentUserID = _auth.currentUser!.uid;
+  Future<void> sendMessage(String receiverId, var message,String senderId) async {
     final String currentUserEmail = _auth.currentUser!.email!;
     final Timestamp timestamp = Timestamp.now();
 
     ChatModel chatModel = ChatModel(
-      senderId: currentUserID,
+      senderId: senderId,
       senderEmail: currentUserEmail,
       receiverId: receiverId,
       message: message,
       timestamp: timestamp,
     );
 
-    List<String> ids = [currentUserID, receiverId];
+    List<String> ids = [senderId, receiverId];
     ids.sort();
     String chatRoomId = ids.join('_');
     await fireStore
         .collection("chat_rooms")
         .doc(chatRoomId)
         .collection("message")
-        .add(chatModel.toMap());
+        .doc()
+        .set(chatModel.toMap());
   }
 
   Future<String> uploadImage(File image) async {
@@ -51,5 +51,22 @@ class ChatService {
         .collection("message")
         .orderBy("timestamp", descending: false)
         .snapshots();
+  }
+
+
+  Stream<QuerySnapshot> getChat(String id) {
+    List<String> ids = ["Iel99WLRjIQ9PIqHTdtM",id ];
+    ids.sort();
+    String chatRoomId = ids.join('_');
+    return fireStore
+        .collection("chat_rooms")
+        .doc(chatRoomId)
+        .collection("message")
+        .orderBy("timestamp", descending: false)
+        .snapshots();
+  }
+  Stream<QuerySnapshot> getChats() {
+    return fireStore
+        .collection("users").snapshots();
   }
 }

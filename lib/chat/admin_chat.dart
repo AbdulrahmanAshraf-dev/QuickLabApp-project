@@ -1,28 +1,43 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quicklab/chat/chat_bubble.dart';
 import 'package:quicklab/chat/chat_service.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class AdminChat extends StatefulWidget {
+  const AdminChat({super.key, required this.id, this.name, required this.onMessageReceived});
+
+  final String id;
+  final String? name;
+  final VoidCallback onMessageReceived; // دالة لإعلام الصفحة بأن رسالة جديدة وصلت
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<AdminChat> createState() => _AdminChatState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _AdminChatState extends State<AdminChat> {
   final TextEditingController messageController = TextEditingController();
   final ChatService _chatService = ChatService();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final ScrollController _scrollController =
-      ScrollController();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    // الاستماع للرسائل الجديدة
+    _chatService.getMessage("Iel99WLRjIQ9PIqHTdtM", widget.id).listen((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        var lastMessage = snapshot.docs.last.data() as Map<String, dynamic>;
+        if (lastMessage['senderId'] != "Iel99WLRjIQ9PIqHTdtM") {
+          widget.onMessageReceived(); // إعلام أن رسالة جديدة وصلت
+        }
+      }
+    });
+  }
+
   void sendMessage() async {
     if (messageController.text.isNotEmpty) {
-      await _chatService.sendMessage(
-          "Iel99WLRjIQ9PIqHTdtM", messageController.text,_auth.currentUser!.uid);
+      await _chatService.sendMessage(widget.id, messageController.text, "Iel99WLRjIQ9PIqHTdtM");
       messageController.clear();
       _scrollToBottom();
     }
@@ -30,7 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> sendImage(File image) async {
     String imageUrl = await _chatService.uploadImage(image);
-    await _chatService.sendMessage("Iel99WLRjIQ9PIqHTdtM", imageUrl,_auth.currentUser!.uid);
+    await _chatService.sendMessage(widget.id, imageUrl, "Iel99WLRjIQ9PIqHTdtM");
     _scrollToBottom();
   }
 
@@ -86,9 +101,9 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               border: Border.all(color: Colors.grey, width: 3)),
-          child: const Text(
-            "Chat",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          child: Text(
+            widget.name ?? "Chat",
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -99,9 +114,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildMessageList() {
-    String senderId = _auth.currentUser!.uid;
     return StreamBuilder(
-      stream: _chatService.getMessage("Iel99WLRjIQ9PIqHTdtM", senderId),
+      stream: _chatService.getMessage("Iel99WLRjIQ9PIqHTdtM", widget.id),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const Text("Error");
@@ -125,15 +139,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    bool isCurrentUser = data['senderId'] == _auth.currentUser!.uid;
-    var alignment =
-        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+    bool isCurrentUser = data['senderId'] == "Iel99WLRjIQ9PIqHTdtM";
+    var alignment = isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
 
     return Container(
       alignment: alignment,
       child: Column(
-        crossAxisAlignment:
-            isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           if (data['message'].toString().startsWith('http'))
             Image.network(data['message'], width: 200, height: 200),
@@ -150,39 +162,41 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Row(
         children: [
           Expanded(
-              child: TextFormField(
-            controller: messageController,
-            obscureText: false,
-            decoration: const InputDecoration(
+            child: TextFormField(
+              controller: messageController,
+              decoration: const InputDecoration(
                 fillColor: Color(0xFFE0E0E0),
                 filled: true,
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                hintText: "Type a message"),
-          )),
-          Container(
-            margin: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Colors.black),
-            child: IconButton(
-                onPressed: () {
-                  showImageSourceDialog(context);
-                },
-                icon: const Icon(
-                  Icons.camera_alt,
-                  color: Colors.white,
-                )),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: "Type a message",
+              ),
+            ),
           ),
           Container(
             margin: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Colors.green),
+            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
             child: IconButton(
-                onPressed: sendMessage,
-                icon: const Icon(
-                  Icons.arrow_forward,
-                  color: Colors.white,
-                )),
+              onPressed: () {
+                showImageSourceDialog(context);
+              },
+              icon: const Icon(
+                Icons.camera_alt,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(5),
+            decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+            child: IconButton(
+              onPressed: sendMessage,
+              icon: const Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),

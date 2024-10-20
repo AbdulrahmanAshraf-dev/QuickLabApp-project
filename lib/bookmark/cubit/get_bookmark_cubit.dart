@@ -14,16 +14,22 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<ProductsData> bookmarkList = [];
   String? userID = FirebaseAuth.instance.currentUser?.uid;
+
   void getBookmark() async {
     emit(GetBookmarkLoadingState());
     try {
       DocumentSnapshot<Map<String, dynamic>> querySnapshot =
-      await firestore.collection('users').doc(userID).get();
+          await firestore.collection('users').doc(userID).get();
       final bookmarks = querySnapshot['bookmarked'] as List<dynamic>;
 
-      List<ProductsData> products = await Future.wait(bookmarks.map((doc) async {
-        DocumentSnapshot<Map<String, dynamic>> collectionRef = await FirebaseFirestore.instance.doc(doc.path).get();
-        return ProductsData.fromJson(collectionRef.data() as Map<String, dynamic>, doc.id,doc.toString().split('/')[1] == 'tests');
+      List<ProductsData> products =
+          await Future.wait(bookmarks.map((doc) async {
+        DocumentSnapshot<Map<String, dynamic>> collectionRef =
+            await FirebaseFirestore.instance.doc(doc.path).get();
+        return ProductsData.fromJson(
+            collectionRef.data() as Map<String, dynamic>,
+            doc.id,
+            doc.toString().split('/')[1] == 'tests');
       }));
 
       bookmarkList = products;
@@ -33,31 +39,44 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
       emit(GetBookmarkErrorState(e.toString()));
     }
   }
-  Future<void> addBookmark(String item,bool isTest,bool inBookmark,BuildContext context) async {
-    final DocumentReference docRef = FirebaseFirestore.instance.collection("users").doc(userID);
-    DocumentReference targetDocRef = firestore.collection(isTest?'tests':"scans").doc(item);
+
+  Future<void> addBookmark(
+      String item, bool isTest, bool inBookmark, BuildContext context,
+      {bool all = false}) async {
+    final DocumentReference docRef =
+        FirebaseFirestore.instance.collection("users").doc(userID);
+    DocumentReference targetDocRef =
+        firestore.collection(isTest ? 'tests' : "scans").doc(item);
     ProductsData.bookmarkedProducts.add(item);
     print(ProductsData.bookmarkedProducts);
     try {
       await docRef.update({
         "bookmarked": FieldValue.arrayUnion([targetDocRef])
       });
-      if(!inBookmark){
+      if (all) {
         context.read<ScansCubit>().getScans();
         context.read<TestsCubit>().getTests();
-      }
-      else{
         context.read<GetBookmarkCubit>().getBookmark();
+      } else {
+        if (!inBookmark) {
+          context.read<ScansCubit>().getScans();
+          context.read<TestsCubit>().getTests();
+        } else {
+          context.read<GetBookmarkCubit>().getBookmark();
+        }
       }
-
     } catch (error) {
       print("Error adding item to array: $error");
     }
   }
 
-  Future<void> removeBookmark(String item,bool isTest,bool inBookmark,BuildContext context) async {
-    final DocumentReference docRef = FirebaseFirestore.instance.collection("users").doc(userID);
-    DocumentReference targetDocRef = firestore.collection(isTest?'tests':"scans").doc(item);
+  Future<void> removeBookmark(
+      String item, bool isTest, bool inBookmark, BuildContext context,
+      {bool all = false}) async {
+    final DocumentReference docRef =
+        FirebaseFirestore.instance.collection("users").doc(userID);
+    DocumentReference targetDocRef =
+        firestore.collection(isTest ? 'tests' : "scans").doc(item);
     ProductsData.bookmarkedProducts.remove(item);
     print(ProductsData.bookmarkedProducts);
 
@@ -65,12 +84,17 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
       await docRef.update({
         'bookmarked': FieldValue.arrayRemove([targetDocRef])
       });
-      if(!inBookmark){
+      if (all) {
         context.read<ScansCubit>().getScans();
         context.read<TestsCubit>().getTests();
-      }
-      else{
         context.read<GetBookmarkCubit>().getBookmark();
+      } else {
+        if (!inBookmark) {
+          context.read<ScansCubit>().getScans();
+          context.read<TestsCubit>().getTests();
+        } else {
+          context.read<GetBookmarkCubit>().getBookmark();
+        }
       }
     } catch (error) {
       print("Error adding item to array: $error");

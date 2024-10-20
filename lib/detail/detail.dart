@@ -49,8 +49,7 @@ class DetailPage extends StatelessWidget {
               ),
             ),
           ),
-          AddFavoriteInDetail(
-              screenWidth: screenWidth, item: items),
+          AddFavoriteInDetail(screenWidth: screenWidth, item: items),
         ],
       ),
       body: SingleChildScrollView(
@@ -145,20 +144,32 @@ class _AddFavoriteInDetail extends State<AddFavoriteInDetail> {
 
   @override
   void initState() {
-    icon = widget.item.isBookmarked! ? Icons.favorite : Icons.favorite_border_rounded;
+    icon = widget.item.isBookmarked!
+        ? Icons.favorite
+        : Icons.favorite_border_rounded;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        context.read<GetBookmarkCubit>().addBookmark(widget.item.id!, widget.item.isTest!, false, context);
-        widget.item.isTest!?context.read<TestsCubit>().getTests():context.read<ScansCubit>().getScans();
-        setState(() {
-          icon = icon == Icons.favorite ? Icons.favorite_border_rounded : Icons.favorite;
-        });
-      },
+        onTap: () {
+          icon == Icons.favorite
+              ? context.read<GetBookmarkCubit>().removeBookmark(
+                  widget.item.id!, widget.item.isTest!, false, context,
+                  all: true)
+              : context.read<GetBookmarkCubit>().addBookmark(
+                  widget.item.id!, widget.item.isTest!, false, context,
+                  all: true);
+          widget.item.isTest!
+              ? context.read<TestsCubit>().getTests()
+              : context.read<ScansCubit>().getScans();
+          setState(() {
+            icon = icon == Icons.favorite
+                ? Icons.favorite_border_rounded
+                : Icons.favorite;
+          });
+        },
         child: SizedBox(
             width: widget.screenWidth - (widget.screenWidth / 1.2),
             child: Icon(

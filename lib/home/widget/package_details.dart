@@ -13,7 +13,7 @@ class PackageDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        PackagesList("Scan"),
+        const PackagesList("Scan"),
         BlocConsumer<ScansCubit, ScansState>(
           listener: (context, state) {
             if (state is ScansErrorState) {

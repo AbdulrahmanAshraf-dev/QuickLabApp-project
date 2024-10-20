@@ -36,7 +36,7 @@ class ResetPasswordScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/lap.png',
+            'assets/images/logo2.jpg',
             height: 100.h,
           ),
           Text(
@@ -115,7 +115,7 @@ class ResetPasswordScreen extends StatelessWidget {
         Navigator.pop(context); // Go back after resetting
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF6C5DD3),
+        backgroundColor: Colors.cyan,
         padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 80.w),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),

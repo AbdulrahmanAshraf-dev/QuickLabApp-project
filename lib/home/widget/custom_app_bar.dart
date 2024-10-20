@@ -57,10 +57,10 @@ class CustomAppBar extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context){
-                            return CartPage();
+                            return const CartPage();
                       }
                       ),
-                    ), icon: Icon(Icons.shopping_cart),
+                    ), icon: const Icon(Icons.shopping_cart),
                 ),
               ),
             ),

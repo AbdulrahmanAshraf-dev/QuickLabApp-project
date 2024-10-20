@@ -226,7 +226,7 @@ class _SubLoginScreenState extends State<SubLoginScreen> {
           context.read<SubLoginCubit>().updateUserProfile();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF6C5DD3),
+          backgroundColor: Colors.cyan,
           padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 120.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),

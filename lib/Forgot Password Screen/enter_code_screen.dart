@@ -35,7 +35,7 @@ class EnterCodeScreen extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/lap.png',
+            'assets/images/logo2.jpg',
             height: 100.h,
           ),
           Text(

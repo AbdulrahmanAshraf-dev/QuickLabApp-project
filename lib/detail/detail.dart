@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
+import 'package:quicklab/home/cubit/cart/cart_cubit.dart';
 import 'package:quicklab/home/cubit/scans/scans_cubit.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/models/products_data.dart';
@@ -32,19 +33,24 @@ class DetailPage extends StatelessWidget {
       ),
       bottomNavigationBar: Row(
         children: [
-          Container(
-            height: 60.h,
-            width: screenWidth / 1.2,
-            decoration: const BoxDecoration(
-              color: Colors.cyan,
-            ),
-            child: Center(
-              child: Text(
-                'Add to Cart',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
+          InkWell(
+            onTap: () {
+              context.read<CartCubit>().addToCart(items);
+            },
+            child: Container(
+              height: 60.h,
+              width: screenWidth / 1.2,
+              decoration: const BoxDecoration(
+                color: Colors.cyan,
+              ),
+              child: Center(
+                child: Text(
+                  'Add to Cart',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

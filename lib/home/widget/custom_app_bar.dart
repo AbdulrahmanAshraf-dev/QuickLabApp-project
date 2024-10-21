@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quicklab/home/cubit/cart/cart_cubit.dart';
 import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 
 import 'cart_page.dart';
@@ -53,14 +54,18 @@ class CustomAppBar extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: IconButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context){
-                            return const CartPage();
-                      }
-                      ),
-                    ), icon: const Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      context.read<CartCubit>().getCart();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) {
+                                    return const CartPage();
+                                  }
+                              ),
+                            );
+
+                    }, icon: const Icon(Icons.shopping_cart),
                 ),
               ),
             ),

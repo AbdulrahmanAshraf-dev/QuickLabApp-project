@@ -2,29 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(375, 812),
-      minTextAdapt: true,
-      builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Checkout App',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: CheckoutPage(),
-        );
-      },
-    );
-  }
-}
+import '../home/home.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -129,7 +107,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  // عنصر واجهة المستخدم لاختيار التاريخ والوقت
   Widget _buildDateTimePicker() {
     return ListTile(
       title: Text(
@@ -143,7 +120,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  // دالة لاختيار التاريخ والوقت معًا
   Future<void> _pickDateTime() async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -228,7 +204,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Handle the submission (e.g., send data to backend)
       print('Name: $_name');
       print('Phone: ${_phoneNumber.phoneNumber}');
       print('Date & Time: $_selectedDateTime');
@@ -237,11 +212,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Success'),
-          content: Text('Your appointment has been booked successfully!'),
+          title: const Text('Success'),
+          content: const Text('Your appointment has been booked successfully!'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => HomePage()));
+              },
               child: Text('OK'),
             ),
           ],

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
+import 'package:quicklab/home/cubit/cart/cart_cubit.dart';
 import 'package:quicklab/home/cubit/scans/scans_cubit.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/homescreen.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
               create: (context) => SubLoginCubit(),
             ),
             BlocProvider(
+              create: (context) => CartCubit()..getCart(),
+            ),
+            BlocProvider(
               create: (context) => ProfileCubit(),
             ),
             BlocProvider(
@@ -75,10 +79,11 @@ class MyApp extends StatelessWidget {
               '/splash': (context) => const SplashScreen(),
               '/home': (context) => const Homescreen(),
               '/subLogin': (context) => const SubLoginScreen(),
-              '/users': (context) =>  const AdminScreen(),
+              '/users': (context) => const AdminScreen(),
               '/patientProfile': (context) => const PatientProfilePage(),
               '/editProfile': (context) => const EditProfilePage(),
-              'forgetPasswordScreen/': (context) => const ForgotPasswordScreen(),
+              'forgetPasswordScreen/': (context) =>
+                  const ForgotPasswordScreen(),
               'restPasswordScreen/': (context) => const ResetPasswordScreen(),
               'enterCodeScreen/': (context) => const EnterCodeScreen(),
             },

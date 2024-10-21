@@ -23,7 +23,16 @@ class ProductsData {
       isBookmarked: bookmarkedProducts.contains(id)?true:false
     );
   }
-
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "image": image,
+      "description": description,
+      "id": id,
+      "isTest": isTest,
+      "price":price
+    };
+  }
   static Future<void> setBookmarkedProducts() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     String? userID = FirebaseAuth.instance.currentUser?.uid;

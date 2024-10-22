@@ -34,12 +34,14 @@ class _AdminChatRoomsScreenState extends State<AdminChatRoomsScreen> {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-                child: SizedBox(
-              height: 100,
-              child: CircularProgressIndicator(
-                color: Colors.cyan,
+              child: SizedBox(
+                width: 30,  // Set the width
+                height: 30,  // Set the height
+                child: CircularProgressIndicator(
+                  color: Colors.cyan,
+                ),
               ),
-            ));
+            );
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {

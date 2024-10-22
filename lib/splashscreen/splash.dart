@@ -18,13 +18,15 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-     context.read<ProfileCubit>().fetchUserProfile();
+    context.read<ProfileCubit>().fetchUserProfile();
     Future.delayed(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => HiveHelper.isLoggedIn()
-                  ? HiveHelper.isAdmin()!?  const AdminScreen():const Homescreen()
+                  ? HiveHelper.isAdmin()!
+                      ? const AdminScreen()
+                      : const Homescreen()
                   : const SignUpScreen()));
     });
     super.initState();
@@ -60,7 +62,9 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 80.0.h),
-              child: const CircularProgressIndicator(color: Colors.cyan,),
+              child: const CircularProgressIndicator(
+                color: Colors.cyan,
+              ),
             ),
             const Text(
               "developed by Codroid Team",

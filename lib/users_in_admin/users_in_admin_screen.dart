@@ -59,6 +59,7 @@ class UsersInAdminScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

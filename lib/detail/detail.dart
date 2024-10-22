@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
+import 'package:quicklab/home/cubit/cart/cart_cubit.dart';
 import 'package:quicklab/home/cubit/scans/scans_cubit.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/models/products_data.dart';
@@ -32,38 +33,22 @@ class DetailPage extends StatelessWidget {
       ),
       bottomNavigationBar: Row(
         children: [
-          Container(
-            height: 60.h,
-            width: screenWidth / 1.2,
-            decoration: const BoxDecoration(
-              color: Colors.cyan,
-            ),
-            child: Center(
-              child: Text(
-                'Add to Cart',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+          _AddAndRemove(items: items, screenWidth: screenWidth),
           AddFavoriteInDetail(screenWidth: screenWidth, item: items),
         ],
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0.dm),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(50),
-                  bottomLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
-                  topLeft: Radius.circular(50),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(50.r),
+                  bottomLeft: Radius.circular(50.r),
+                  topRight: Radius.circular(50.r),
+                  topLeft: Radius.circular(50.r),
                 ),
                 child: SizedBox(
                   height: screenHeight / 2.5,
@@ -118,6 +103,66 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AddAndRemove extends StatefulWidget {
+  const _AddAndRemove({
+    required this.items,
+    required this.screenWidth,
+  });
+
+  final ProductsData items;
+  final double screenWidth;
+
+  @override
+  State<_AddAndRemove> createState() => _AddAndRemoveState();
+}
+
+class _AddAndRemoveState extends State<_AddAndRemove> {
+  late String text;
+
+  @override
+  void initState() {
+    text = widget.items.isInCart! ? "Remove from Cart" : 'Add to Cart';
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (!widget.items.isInCart!) {
+          CartCubit()
+              .addInCart(widget.items.id!, widget.items.isTest!,widget.items.price!.toInt(), context);
+          text = "Remove from Cart";
+          setState(() {});
+        } else {
+          CartCubit()
+              .removeFromCart(widget.items.id!, widget.items.isTest!,widget.items.price!.toInt(), context);
+          text = "Add to Cart";
+          setState(() {});
+        }
+        widget.items.isInCart = !widget.items.isInCart!;
+      },
+      child: Container(
+        height: 60.h,
+        width: widget.screenWidth / 1.2,
+        decoration: const BoxDecoration(
+          color: Colors.cyan,
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

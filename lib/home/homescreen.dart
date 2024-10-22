@@ -40,6 +40,7 @@ class _HomescreenState extends State<Homescreen> {
   void initState() {
     context.read<ProfileCubit>().fetchUserProfile();
      ProductsData.setBookmarkedProducts();
+      ProductsData.setInCartProducts();
     super.initState();
   }
   @override

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:quicklab/bookmark/cubit/get_bookmark_cubit.dart';
+import 'package:quicklab/home/cubit/cart/cart_cubit.dart';
 import 'package:quicklab/home/cubit/scans/scans_cubit.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/homescreen.dart';
@@ -16,6 +17,7 @@ import 'package:quicklab/user_profile/cubit/profile_cubit.dart';
 import 'package:quicklab/user_profile/edit_profile_page.dart';
 import 'package:quicklab/user_profile/profile.dart';
 import 'package:quicklab/users_in_admin/admin_screen.dart';
+import 'package:quicklab/users_in_admin/cubit/appointment_details_cubit.dart';
 import 'Forgot Password Screen/enter_code_screen.dart';
 import 'Forgot Password Screen/forgot_password_screen.dart';
 import 'Forgot Password Screen/reset_password_screen.dart';
@@ -28,7 +30,6 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(HiveHelper.boxKey);
-  print(HiveHelper.isAdmin());
   runApp(const MyApp());
 }
 
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
               create: (context) => SubLoginCubit(),
             ),
             BlocProvider(
+              create: (context) => CartCubit()..getCartItems(),
+            ),
+            BlocProvider(
               create: (context) => ProfileCubit(),
             ),
             BlocProvider(
@@ -64,6 +68,9 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => GetBookmarkCubit()..getBookmark(),
+            ),
+            BlocProvider(
+              create: (context) => AppointmentDetailsCubit(),
             ),
           ],
           child: MaterialApp(

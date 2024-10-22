@@ -43,15 +43,12 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
    Future<bool> isAdmin(String id)async{
-     print("xxxxxxxxxxxxxxxxxxxx\n");
 
      DocumentSnapshot userDoc = await FirebaseFirestore.instance
         .collection('users')
         .doc(id)
         .get();
     bool? isAdmin = userDoc.get("isAdmin");
-    print("=======================\n");
-    print(isAdmin);
     HiveHelper.setIsAdmin(isAdmin!);
 
     return isAdmin;

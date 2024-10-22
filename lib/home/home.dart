@@ -18,9 +18,9 @@ class HomePage extends StatelessWidget {
           children: [
             const CustomAppBar(),
             SearchInput(),
-            const PackageDetails(),
+             const PackageDetails(),
             const Banners(),
-            const Tests(),
+             const Tests(),
             SizedBox(height: 20.h),
           ],
         ),

@@ -1,52 +1,69 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quicklab/home/models/products_data.dart';
+
+import '../cubit/cart/cart_cubit.dart';
 
 class CartItemSamples extends StatelessWidget {
-  const CartItemSamples({super.key});
+  const CartItemSamples({super.key, required this.product});
+
+  final ProductsData product;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          height: 110,
-          margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-          padding: EdgeInsets.all(10),
+          height: 110.h,
+          margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+          padding: EdgeInsets.all(10.dm),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
             children: [
-              Radio(
-                  value: "",
-                  groupValue: "",
-                  activeColor: Colors.cyan,
-                  onChanged: (index){},
-              ),
               Container(
-                height: 70,
-                width: 70,
-                margin: EdgeInsets.only(right: 15),
-                child: Image.asset("assets/images/apple.png"),
+                height: 70.h,
+                width: 70.w,
+                margin: EdgeInsets.only(right: 15.w),
+                child: Image.network(
+                  product.image!,
+                  height: 170.h,
+                  fit: BoxFit.fitHeight,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(Icons.error),
+                    );
+                  },
+                ),
               ),
-              Padding(padding: EdgeInsets.symmetric(vertical: 10),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Product Title",
+                      product.name!,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                     Text(
-                      "350EGP",
+                      "${product.price}\$",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.cyan,
                       ),
@@ -54,79 +71,34 @@ class CartItemSamples extends StatelessWidget {
                   ],
                 ),
               ),
-              Spacer(),
-              Padding(padding: EdgeInsets.symmetric(vertical: 5),
-                child: Column(
+              const Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.w),
+                child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.delete,color: Colors.red,
+                    IconButton(
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.cyan,
+                      ),
+                      onPressed: () {
+                        CartCubit().removeFromCart(
+                          product.id!,
+                          product.isTest!,
+                          product.price!.toInt(),
+                          context,
+                        );
+                      },
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 10,
-                            )]
-                          ),
-                          child: Icon(
-                            CupertinoIcons.plus,
-                            size: 18,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            "01",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.cyan
-                          ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 10,
-                              )]
-                          ),
-                          child: Icon(
-                            CupertinoIcons.minus,
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
             ],
           ),
         ),
-        Container(
-        height: 55,
-        margin: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-        padding: EdgeInsets.all(10),
-        child: Text("Home Visit Fees 50EGP",style: TextStyle(color: Colors.cyan),),
-        decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        ),
-        ),
       ],
-
     );
   }
 }

@@ -20,7 +20,7 @@ class ProfileModel {
       this.check = false,
       this.id,});
 
-  ProfileModel.fromJson(Map<String, dynamic> json, String? id) {
+  ProfileModel.fromJson(Map<String, dynamic> json, this.id) {
     name = json["name"];
     image = json["image"];
     email = json["email"];
@@ -29,7 +29,6 @@ class ProfileModel {
     age = json["age"];
     check = json["check"];
     isAdmin = json["isAdmin"];
-    id = id;
   }
 
   Map<String, dynamic> toJson() {

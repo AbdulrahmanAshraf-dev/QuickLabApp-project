@@ -9,8 +9,12 @@ class ProductsData {
   final String? id;
   final bool? isTest;
   bool? isBookmarked;
+  bool? isInCart;
   static Set bookmarkedProducts={} ;
-  ProductsData( {this.isTest,this.id, this.description,  this.name,  this.image,  this.price,this.isBookmarked});
+  static Set inCartProducts={};
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static final String? _userID = FirebaseAuth.instance.currentUser?.uid;
+  ProductsData( {this.isTest,this.id, this.description,  this.name,  this.image,  this.price,this.isBookmarked,this.isInCart});
 
   factory ProductsData.fromJson(Map<String, dynamic> json, String id, bool isTest) {
     return ProductsData(
@@ -20,21 +24,31 @@ class ProductsData {
       description: json['description'] ?? 'Unknown',
       id: id,
       isTest: isTest,
-      isBookmarked: bookmarkedProducts.contains(id)?true:false
+      isBookmarked: bookmarkedProducts.contains(id)?true:false,
+      isInCart: inCartProducts.contains(id)?true:false,
     );
   }
 
   static Future<void> setBookmarkedProducts() async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+
     DocumentSnapshot<Map<String, dynamic>> querySnapshot =
-        await firestore.collection('users').doc(userID).get();
+        await firestore.collection('users').doc(_userID).get();
     final bookmarks = querySnapshot['bookmarked'] as List<dynamic>;
 
     await Future.wait(bookmarks.map((doc) async {
       bookmarkedProducts.add(doc.toString().split('/')[1].split(')')[0]);
     }));
-    print(bookmarkedProducts);
+
+  }
+
+  static Future<void> setInCartProducts() async {
+    DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+    await firestore.collection('users').doc(_userID).get();
+    final bookmarks = querySnapshot['cart'] as List<dynamic>;
+
+    await Future.wait(bookmarks.map((doc) async {
+      inCartProducts.add(doc.toString().split('/')[1].split(')')[0]);
+    }));
 
   }
 }

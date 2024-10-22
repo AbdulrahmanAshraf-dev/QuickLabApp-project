@@ -46,7 +46,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         emit(EditProfileFailure('User data not found.'));
       }
     } catch (e) {
-      print(e.toString());
       emit(EditProfileFailure('Failed to fetch user profile: $e'));
     }
   }

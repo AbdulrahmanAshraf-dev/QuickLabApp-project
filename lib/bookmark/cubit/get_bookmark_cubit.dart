@@ -12,9 +12,8 @@ part 'get_bookmark_state.dart';
 class GetBookmarkCubit extends Cubit<GetBookmarkState> {
   GetBookmarkCubit() : super(GetBookmarkInitial());
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  List<ProductsData> bookmarkList = [];
   String? userID = FirebaseAuth.instance.currentUser?.uid;
-
+  List<ProductsData> bookmarkList = [];
   void getBookmark() async {
     emit(GetBookmarkLoadingState());
     try {
@@ -29,7 +28,7 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
         return ProductsData.fromJson(
             collectionRef.data() as Map<String, dynamic>,
             doc.id,
-            doc.toString().split('/')[1] == 'tests');
+            doc.toString().split('/')[0] == 'DocumentReference<Map<String, dynamic>>(tests'? true : false);
       }));
 
       bookmarkList = products;
@@ -48,7 +47,6 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
     DocumentReference targetDocRef =
         firestore.collection(isTest ? 'tests' : "scans").doc(item);
     ProductsData.bookmarkedProducts.add(item);
-    print(ProductsData.bookmarkedProducts);
     try {
       await docRef.update({
         "bookmarked": FieldValue.arrayUnion([targetDocRef])
@@ -66,7 +64,7 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
         }
       }
     } catch (error) {
-      print("Error adding item to array: $error");
+          emit(GetBookmarkErrorState(error.toString()));
     }
   }
 
@@ -78,7 +76,6 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
     DocumentReference targetDocRef =
         firestore.collection(isTest ? 'tests' : "scans").doc(item);
     ProductsData.bookmarkedProducts.remove(item);
-    print(ProductsData.bookmarkedProducts);
 
     try {
       await docRef.update({
@@ -97,7 +94,7 @@ class GetBookmarkCubit extends Cubit<GetBookmarkState> {
         }
       }
     } catch (error) {
-      print("Error adding item to array: $error");
+      emit(GetBookmarkErrorState(error.toString()));
     }
   }
 }

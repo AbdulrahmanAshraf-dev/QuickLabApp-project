@@ -4,17 +4,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/home/cubit/tests/tests_cubit.dart';
 import 'package:quicklab/home/widget/packages_item.dart';
 
+import '../../vertical_products/vertical_products_screen.dart';
+import '../models/products_data.dart';
 import 'packages.dart';
 
-class Tests extends StatelessWidget {
+class Tests extends StatefulWidget {
   const Tests({super.key});
+
+  @override
+  State<Tests> createState() => _TestsState();
+}
+
+class _TestsState extends State<Tests> {
+  List<ProductsData> items = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const PackagesList("Tests"),
+        PackagesList("Tests", onTap: () {
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        VerticalProductsScreen(items: items, title: "Scans")));
+
+        },),
         SizedBox(height: 250.h,
           child: BlocConsumer<TestsCubit, TestsState>(
             listener: (context, state) {
@@ -32,15 +49,17 @@ class Tests extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is TestsSuccessState) {
-                final tests = context.read<TestsCubit>().testsList;
+                items = context
+                    .read<TestsCubit>()
+                    .testsList;
                 return ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   separatorBuilder: (context, index) => SizedBox(width: 10.w),
-                  itemCount: tests.length,
+                  itemCount: items.length,
                   scrollDirection: Axis.horizontal,
-                  padding:  EdgeInsets.symmetric(horizontal: 15.w),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
                   itemBuilder: (context, index) {
-                    return PackagesItem(tests[index], inBookmark: false,);
+                    return PackagesItem(items[index], inBookmark: false,);
                   },
                 );
               }

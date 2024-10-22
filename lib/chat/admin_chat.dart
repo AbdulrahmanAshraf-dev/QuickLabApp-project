@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quicklab/chat/chat_bubble.dart';
 import 'package:quicklab/chat/chat_service.dart';
@@ -106,7 +107,14 @@ class _AdminChatState extends State<AdminChat> {
         if (snapshot.hasError) {
           return const Text("Error");
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return  Center(child: SizedBox(
+        width: 30.w,  // Set the width
+        height: 30.h,  // Set the height
+        child: const CircularProgressIndicator(
+        color: Colors.cyan,
+        ),
+        ),
+        );
         } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _scrollToBottom();

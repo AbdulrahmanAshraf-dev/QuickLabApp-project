@@ -63,7 +63,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   // AppBar with title
   AppBar _buildAppBar() {
-    return AppBar(
+    return AppBar(centerTitle: true,
       title: Text(
         'Edit Profile',
         style: TextStyle(

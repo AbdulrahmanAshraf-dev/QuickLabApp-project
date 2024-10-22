@@ -28,14 +28,7 @@ class BookmarkScreen extends StatelessWidget {
         width: double.infinity,
         child: BlocConsumer<GetBookmarkCubit, GetBookmarkState>(
           listener: (context, state) {
-            if (state is GetBookmarkErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.redAccent,
-                  content: Text(state.message),
-                ),
-              );
-            }
+
           },
           builder: (context, state) {
             return RefreshIndicator(
@@ -49,13 +42,13 @@ class BookmarkScreen extends StatelessWidget {
                   }
 
                   if (state is GetBookmarkErrorState) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Error loading bookmarks"),
-                          SizedBox(height: 20.h),
-                        ],
+                    return SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 100.h),
+                          child:  Text("No bookmarked products", style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     );
                   }

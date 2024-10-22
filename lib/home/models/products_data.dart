@@ -28,7 +28,16 @@ class ProductsData {
       isInCart: inCartProducts.contains(id)?true:false,
     );
   }
-
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "image": image,
+      "description": description,
+      "id": id,
+      "isTest": isTest,
+      "price":price
+    };
+  }
   static Future<void> setBookmarkedProducts() async {
 
     DocumentSnapshot<Map<String, dynamic>> querySnapshot =

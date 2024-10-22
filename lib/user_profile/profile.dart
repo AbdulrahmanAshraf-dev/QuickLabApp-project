@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quicklab/helpers/hive_helper.dart';
-
 import '../login/login_page.dart';
 import 'cubit/profile_cubit.dart';
 import 'edit_profile_page.dart';
